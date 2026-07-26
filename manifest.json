@@ -1,0 +1,13 @@
+{
+  "name": "Android 17 Cinnamon Bun",
+  "short_name": "Android 17",
+  "description": "The Intelligent Android Era — AI-powered experiences, adaptive UI, enhanced privacy, and performance improvements.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050805",
+  "theme_color": "#3ddc84",
+  "icons": [
+    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" },
+    { "src": "/assets/hero.webp", "type": "image/webp", "sizes": "1200x630" }
+  ]
+}

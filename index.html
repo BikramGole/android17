@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Android 17 Cinnamon Bun · API 37 · The Intelligent Android Era</title>
   <meta name="description" content="Android 17 'Cinnamon Bun' (API 37) technical deep dive: AI-first platform, adaptive UI, AppFunctions, Generational GC, privacy upgrades, and developer migration roadmap." />
   <meta name="keywords" content="Android 17, Cinnamon Bun, API 37, Android development, AI, AppFunctions, adaptive UI, Jetpack Compose" />
@@ -10,16 +10,22 @@
   <meta property="og:title" content="Android 17 Cinnamon Bun · The Intelligent Android Era" />
   <meta property="og:description" content="Technical showcase covering AI integration, adaptive UI, multitasking, performance, privacy, and developer migration for Android 17 (API 37)." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://developer.android.com/about/versions/17" />
   <meta property="og:image" content="assets/hero.webp" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Android 17 Cinnamon Bun" />
   <meta name="twitter:description" content="The Intelligent Android Era — AI, adaptive UI, and privacy at the platform level." />
+  <meta name="theme-color" content="#050805" />
+  <meta name="color-scheme" content="dark" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="manifest" href="manifest.json" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
+  <script>document.documentElement.classList.replace('no-js','js')</script>
   <script type="importmap">
   {
     "imports": {
@@ -30,6 +36,15 @@
   </script>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="scroll-progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+  <div id="loader" class="loader" role="status" aria-label="Loading">
+    <div class="loader-inner">
+      <div class="loader-dot"></div>
+      <div class="loader-ring"></div>
+      <span class="loader-text">Android 17</span>
+    </div>
+  </div>
 
   <nav class="nav" role="navigation" aria-label="Main navigation">
     <div class="container nav-inner">
@@ -52,6 +67,9 @@
         <li><a href="#compare">Compare</a></li>
         <li><a href="#media">Media</a></li>
         <li><a href="#youtube">YouTube</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#simulator">Simulator</a></li>
+        <li><a href="#bot-section">3D Bot</a></li>
       </ul>
     </div>
   </nav>
@@ -93,16 +111,50 @@
             <span class="stat-label">Major feature areas</span>
           </div>
         </div>
+        <div class="scroll-indicator" aria-hidden="true">
+          <span class="scroll-text">Scroll</span>
+          <svg width="16" height="24" viewBox="0 0 16 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="1" y="1" width="14" height="22" rx="7"/>
+            <circle cx="8" cy="8" r="2" fill="currentColor"/>
+          </svg>
+        </div>
       </div>
       <div class="hero-visual reveal">
-        <div class="android-3d-embed" id="android-bot-container">
-          <canvas id="android-bot-canvas"></canvas>
+        <div class="device-stack">
+          <div class="floating-card glass">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5z"/><path d="M18 14l1 3 3 1-3 1-1 3-1-3-3-1 3-1z"/></svg>
+            </div>
+            <div>
+              <strong>AI-first platform</strong>
+              <p>Apps expose functions that on-device agents can discover and orchestrate.</p>
+            </div>
+          </div>
+          <div class="floating-card glass fc-secondary">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <div>
+              <strong>Generational GC</strong>
+              <p>Lower pause times and better battery efficiency under load.</p>
+            </div>
+          </div>
+          <div class="device phone glass-device">
+            <div class="device-screen">
+              <img src="assets/wallpaper.webp" alt="Google Pixel" class="pixel-phone-img" />
+            </div>
+          </div>
+          <div class="device tablet glass-device">
+            <div class="device-screen">
+              <img src="assets/tablet.png" alt="Android Tablet" class="pixel-tablet-img" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </header>
 
-  <main>
+  <main id="main-content">
     <section id="overview" class="section">
       <div class="container">
         <div class="section-head reveal">
@@ -147,6 +199,8 @@
         </div>
       </div>
     </section>
+
+    <hr class="section-divider" aria-hidden="true">
 
     <section id="features" class="section">
       <div class="container">
@@ -240,6 +294,8 @@
       </div>
     </section>
 
+    <hr class="section-divider" aria-hidden="true">
+
     <section id="adaptive" class="section">
       <div class="container">
         <div class="section-head reveal">
@@ -287,6 +343,8 @@
         </div>
       </div>
     </section>
+
+    <hr class="section-divider" aria-hidden="true">
 
     <section id="performance" class="section">
       <div class="container">
@@ -340,6 +398,8 @@
         </div>
       </div>
     </section>
+
+    <hr class="section-divider" aria-hidden="true">
 
     <section id="security" class="section">
       <div class="container">
@@ -396,6 +456,8 @@
         </div>
       </div>
     </section>
+
+    <hr class="section-divider" aria-hidden="true">
 
     <section id="media" class="section">
       <div class="container">
@@ -574,21 +636,89 @@
     </section>
   </main>
 
-  <section class="section devices-showcase">
+  <section id="faq" class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">FAQ</span>
+        <h2>Frequently Asked Questions</h2>
+        <p>Common questions about Android 17, migration, and new platform capabilities.</p>
+      </div>
+      <div class="faq-grid">
+        <details class="faq-item glass reveal" open>
+          <summary>When will Android 17 be released?</summary>
+          <p>Android 17 is expected to launch in Q3 2026, following the traditional Q2 beta release cycle. The platform will be available for Pixel devices first, with OEM rollouts following shortly after.</p>
+        </details>
+        <details class="faq-item glass reveal">
+          <summary>What is the target SDK version for Android 17?</summary>
+          <p>Android 17 uses API level 37. Apps targeting API 37 must comply with new requirements including mandatory adaptive layouts, AppFunctions integration readiness, and updated privacy policies.</p>
+        </details>
+        <details class="faq-item glass reveal">
+          <summary>How do AppFunctions work?</summary>
+          <p>AppFunctions allow apps to declare semantic capabilities that on-device AI agents can discover and invoke. Functions are defined in the app manifest and use a standardized schema for inputs and outputs. Users remain in control through privacy prompts for each function call.</p>
+        </details>
+        <details class="faq-item glass reveal">
+          <summary>What are the new privacy features?</summary>
+          <p>Android 17 introduces temporary permissions (auto-revoke on background), scoped contact access, local network permission, post-quantum cryptography (NIST-standardized), and stricter dynamic code loading constraints.</p>
+        </details>
+        <details class="faq-item glass reveal">
+          <summary>What is Generational GC?</summary>
+          <p>Generational Garbage Collection separates the heap into young and old generations. Most objects die young, so collecting only the young generation is fast and reduces jank. This results in up to 60% lower GC pause times and better battery life under load.</p>
+        </details>
+        <details class="faq-item glass reveal">
+          <summary>Do I need to update my app for Android 17?</summary>
+          <p>Yes. If your app targets API 37, you must update to support adaptive layouts (using WindowSizeClass), comply with new privacy requirements, and test against the updated runtime policies. The migration roadmap section provides a step-by-step guide.</p>
+        </details>
+        <details class="faq-item glass reveal">
+          <summary>What is the Bubble Bar?</summary>
+          <p>The Bubble Bar extends App Bubbles to large screens, providing a persistent sidebar of bubble apps on tablets and foldables. Users can quickly switch between bubble-enabled apps without interrupting their main workflow.</p>
+        </details>
+        <details class="faq-item glass reveal">
+          <summary>How does Screen Reactions work?</summary>
+          <p>Screen Reactions lets users record their screen and front-facing camera simultaneously. The system composites the camera feed as a picture-in-picture overlay on the screen recording, perfect for tutorials, game commentary, and creative content.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="simulator" class="section">
     <div class="container">
       <div class="section-head reveal" style="text-align:center">
-        <span class="section-tag">Devices</span>
-        <h2>See Android 17 in Action</h2>
+        <span class="section-tag">Interactive</span>
+        <h2>Phone Simulator</h2>
+        <p>Built with react-device-frameset, framer-motion, dnd-kit, Three.js, and MUI.</p>
+        <a href="/simulator/" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:10px 28px;border-radius:40px;background:linear-gradient(135deg,#8ab4f8,#c084fc);color:#000;font-weight:600;text-decoration:none;font-size:14px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="4"/><circle cx="12" cy="12" r="3"/></svg>
+          Launch Full Simulator
+        </a>
       </div>
-      <div class="devices-grid">
-        <div class="device-card glass">
-          <img src="assets/wallpaper.webp" alt="Google Pixel" loading="lazy" />
-          <p>Google Pixel 9 Pro</p>
+      <div class="simulator-wrapper reveal">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen" id="phone-screen">
+            <div class="phone-status">
+              <span>10:25</span>
+              <span>
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="0" width="14" height="10" rx="2" stroke="#ccc" stroke-width="1"/><rect x="15" y="2" width="1" height="6" rx="0.5" fill="#ccc"/></svg>
+              </span>
+            </div>
+            <div class="phone-apps" id="phone-apps"></div>
+            <div class="phone-bubbles" id="phone-bubbles"></div>
+            <div class="phone-reactions" id="phone-reactions"></div>
+          </div>
         </div>
-        <div class="device-card glass">
-          <img src="assets/tablet.png" alt="Android Tablet" loading="lazy" />
-          <p>Android Tablet</p>
-        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="bot-section">
+    <div class="container">
+      <div class="section-head reveal" style="text-align:center">
+        <span class="section-tag">3D Model</span>
+        <h2>Android Bot</h2>
+        <p>Drag to rotate &middot; Scroll to zoom</p>
+      </div>
+      <div class="android-3d-embed" id="android-bot-container">
+        <canvas id="android-bot-canvas"></canvas>
       </div>
     </div>
   </section>
@@ -606,8 +736,17 @@
           <a href="#features">Features</a>
           <a href="#roadmap">Roadmap</a>
           <a href="#compare">Compare</a>
+          <a href="#faq">FAQ</a>
           <a href="#youtube">YouTube</a>
+          <a href="#simulator">Simulator</a>
+          <a href="#bot-section">3D Bot</a>
         </nav>
+        <div class="footer-extra">
+          <a href="https://github.com/BikramGole/andriod17" target="_blank" rel="noopener noreferrer" class="footer-link" aria-label="GitHub repository">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            <span>Source</span>
+          </a>
+        </div>
         <p class="footer-note">
           This is a technical showcase page. All Android 17 features described are based on
           official Google announcements and developer documentation.
@@ -617,5 +756,17 @@
   </footer>
 
   <script src="script.js"></script>
+  <script>
+    window.addEventListener('load', function() {
+      var loader = document.getElementById('loader');
+      if (loader) {
+        loader.classList.add('loader-hide');
+        setTimeout(function() { loader.remove(); }, 800);
+      }
+    });
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(function() {});
+    }
+  </script>
 </body>
 </html>
