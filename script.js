@@ -7,6 +7,16 @@
   var q = function (s, ctx) { return (ctx || document).querySelector(s); };
   var qa = function (s, ctx) { return (ctx || document).querySelectorAll(s); };
 
+  /* ===== 0. Page Load Animation ===== */
+  (function () {
+    var body = document.body;
+    body.style.opacity = '0';
+    body.style.transition = 'opacity 0.5s ease';
+    requestAnimationFrame(function () {
+      body.style.opacity = '1';
+    });
+  })();
+
   /* ===== 1. Enhanced Scroll Reveal ===== */
   (function () {
     var revealMap = {
@@ -136,7 +146,31 @@
     })();
   })();
 
-  /* ===== 3. Device Mouse Tilt Parallax ===== */
+  /* ===== 3. Hero Mouse Parallax ===== */
+  (function () {
+    var heroEl = q('.hero');
+    var heroBg = q('.hero-bg');
+    var content = q('.hero-content');
+    var visual = q('.hero-visual');
+    if (!heroEl || window.innerWidth < 768) return;
+
+    heroEl.addEventListener('mousemove', function (e) {
+      var rect = heroEl.getBoundingClientRect();
+      var x = (e.clientX - rect.left) / rect.width - 0.5;
+      var y = (e.clientY - rect.top) / rect.height - 0.5;
+      if (heroBg) heroBg.style.transform = 'translate(' + (x * -20) + 'px, ' + (y * -10) + 'px) scale(1.05)';
+      if (content) content.style.transform = 'translate(' + (x * 8) + 'px, ' + (y * 4) + 'px)';
+      if (visual) visual.style.transform = 'translate(' + (x * -12) + 'px, ' + (y * -6) + 'px)';
+    });
+
+    heroEl.addEventListener('mouseleave', function () {
+      if (heroBg) { heroBg.style.transform = ''; }
+      if (content) { content.style.transform = ''; }
+      if (visual) { visual.style.transform = ''; }
+    });
+  })();
+
+  /* ===== 3.5 Device Mouse Tilt Parallax ===== */
   (function () {
     var devices = qa('.device');
     if (!devices.length || window.innerWidth < 768) return;
