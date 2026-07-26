@@ -1,0 +1,307 @@
+.teal-green {
+  color: var(--teal);
+}
+
+.wp-inner-wrapper {
+  // font-family: "Sans-serif";
+}
+
+.whatsapp-home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.whatsapp-top-nav {
+  width: 100%;
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  padding: 0.5em 0.6em 0.5em 0.2em;
+  background: var(--teal);
+  color: var(--white);
+
+  .brand-name {
+    font-weight: 400;
+    font-size: 1.25em;
+    padding-left: 0.4em;
+    letter-spacing: 1px;
+  }
+
+  .w-nav-icons {
+    display: flex;
+
+    .uicon {
+      margin-left: 1em;
+    }
+  }
+}
+
+.w-nav-tab {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+
+  .nav-slider {
+    height: 4px;
+    position: absolute;
+    background: var(--white);
+    bottom: 0;
+    transition: all 200ms ease-in-out;
+  }
+
+  .tab-option {
+    font-weight: 200;
+    font-size: 0.88em;
+    padding: 0.5em;
+    opacity: 0.5;
+    flex-grow: 1;
+    text-align: center;
+    margin: 0 0.5em;
+
+    &[value="true"] {
+      opacity: 1;
+    }
+  }
+}
+
+.home-nav-tab {
+  background: var(--teal);
+  color: var(--white);
+
+  .tab-option:first-child {
+    flex-grow: 0;
+    margin: 0;
+  }
+}
+
+.whatsapp-home-page {
+  width: 100%;
+  flex-grow: 1;
+  overflow: hidden;
+
+  .call-logs-container,
+  .chats-status-container,
+  .home-chats-container {
+    height: 100%;
+    overflow-y: scroll;
+  }
+}
+
+.home-chats {
+  height: max-content;
+  padding: 0.5em;
+  color: var(--med-txt);
+
+  .all-chat-container {
+    padding: 0.5em 0;
+    display: flex;
+
+    .short-info {
+      flex-grow: 1;
+      margin-left: 0.8em;
+      position: relative;
+    }
+
+    .imageCont {
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    .chat-info {
+      display: flex;
+
+      .chat-name {
+        flex-grow: 1;
+        font-size: 1.1em;
+        font-weight: 600;
+      }
+
+      .chat-date {
+        font-size: 0.72em;
+        font-weight: 400;
+        color: var(--sat-txt);
+      }
+    }
+
+    .latest-message-container {
+      display: flex;
+      position: absolute;
+      width: 100%;
+    }
+
+    .latest-message {
+      flex-grow: 1;
+      display: flex;
+      font-size: 0.84em;
+      font-weight: 500;
+      color: var(--sat-txt);
+      fill: var(--sat-txt);
+      position: relative;
+      max-width: 100%;
+
+      .uicon {
+        margin-right: 0.2em;
+      }
+
+      span {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .chat-acts {
+      display: flex;
+
+      .unread {
+        font-size: 0.64em;
+        padding: 0.2em 0.76em;
+        border-radius: 50%;
+        margin: 0 0.5em;
+        color: var(--white);
+        background: var(--light-green);
+      }
+    }
+  }
+}
+
+.seentick {
+  &[data-payload="2"] {
+    color: var(--blue);
+    fill: var(--blue);
+  }
+}
+
+.quick-wtool-container {
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
+  padding: 0.8em;
+  border-radius: 3em;
+  background: var(--light-teal);
+  color: var(--white);
+}
+
+.camera-container {
+  height: 100%;
+  overflow: hidden;
+  background: black;
+}
+
+.all-contacts,
+.call-logs,
+.chats-status,
+.my-status {
+  height: max-content;
+  color: var(--med-txt);
+
+  .call-log,
+  .chat-status,
+  .contact-cotainer {
+    display: flex;
+    align-items: center;
+    padding: 0.5em 1em;
+    // margin-bottom: 1em;
+    .status-preview-container {
+      position: relative;
+      // background: var(--teal);
+      border-radius: 50%;
+      padding: 3px;
+      // overflow: hidden;
+      .status-preview {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        inset: 0;
+        // transform: scale(-1, 1);
+        svg {
+          width: 100%;
+          height: 100%;
+        }
+
+        .notviewed {
+          stroke: var(--teal);
+        }
+
+        .viewed {
+          stroke: var(--light-txt);
+        }
+      }
+
+      .imageCont {
+        border: 1px solid var(--white);
+      }
+    }
+  }
+}
+
+.call-logs {
+  padding-top: 0.5em;
+
+  .status-date {
+    display: flex;
+
+    .callConnected,
+    .callMade {
+      color: var(--light-green);
+    }
+
+    .callMissed {
+      color: #eb3434;
+    }
+  }
+}
+
+.scale-trans {
+  opacity: 1;
+  transform: scale(1);
+  transition: 200ms ease-in-out;
+  pointer-events: auto;
+  transition-property: transform, opacity;
+
+  &[data-vis="0"] {
+    transform: scale(0.9);
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  &[data-vis="2"] {
+    transform: scale(1.1);
+    pointer-events: none;
+    opacity: 0;
+  }
+}
+
+// all contacts container
+.contacts-container {
+  position: absolute;
+  inset: 0;
+
+  .contact-cotainer {
+    .imageCont, .uicon{
+      min-width: 38px;
+      min-height: 38px;
+      color: #fefefe;
+      background: var(--light-teal);
+    }
+  }
+}
+
+.all-contacts {
+  padding-top: 0.5em;
+  height: 100%;
+  overflow-y: scroll;
+
+  .status-date {
+    flex-grow: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+  }
+}

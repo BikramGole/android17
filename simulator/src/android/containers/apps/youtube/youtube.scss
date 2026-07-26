@@ -1,0 +1,245 @@
+.youtube-home {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.yt-bottom-nav,
+.yt-top-nav {
+  width: 100%;
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  padding: 0.5em 0.6em;
+  color: var(--txt-col);
+
+  .y-nav-icons {
+    display: flex;
+
+    .imageCont,
+    .uicon {
+      margin: 0 0.5em;
+    }
+  }
+}
+
+.yt-bottom-nav {
+  padding: 0.5em;
+  color: var(--med-txt);
+  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  transition: transform 200ms ease-in-out;
+
+  &[data-hide="true"]{
+    transform: translateY(60px);
+    pointer-events: none;
+  }
+
+  .uicon {
+    font-size: 0.7em;
+  }
+}
+
+.yt-page {
+  width: 100%;
+  flex-grow: 1;
+  overflow-y: scroll;
+}
+
+.yt-item-container {
+  margin-bottom: 0.5em;
+
+  .yt-vid-thumbnail {
+    min-height: 12em;
+    background: var(--comp-txt);
+  }
+
+  .yt-vid-info {
+    display: flex;
+    width: 100%;
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    padding: 0 0.5em;
+
+    .imageCont {
+      min-width: 36px;
+
+      img {
+        border-radius: 2em;
+      }
+    }
+
+    .yt-vid-title {
+      font-size: 0.84em;
+      font-weight: 600;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
+    }
+
+    .yt-vid-extra {
+      font-size: 0.64em;
+      font-weight: 500;
+      color: var(--sat-txt);
+    }
+  }
+}
+
+.yt-trending-page {}
+
+.yt-trending-catg {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  grid-row-gap: 0.5em;
+  grid-column-gap: 0.5em;
+  padding: 1em;
+
+  .yt-catg {
+    display: flex;
+    padding: 0.5em;
+    color: var(--white);
+    font-size: 0.9em;
+    font-weight: 500;
+    border-radius: 6px;
+
+    img {
+      filter: saturate(0) brightness(3);
+      margin-left: 0.25em;
+      margin-right: 0.5em;
+    }
+
+    &:nth-child(1) {
+      background: rgb(195,9,9);
+      background: linear-gradient(135deg, rgba(195,9,9,1) 0%, rgba(235,59,59,1) 100%);
+    }
+
+    &:nth-child(2) {
+      background: rgb(9,195,83);
+      background: linear-gradient(135deg, rgba(21, 143, 69, 1) 0%, rgba(59,235,141,1) 100%);
+    }
+
+    &:nth-child(3) {
+      background: rgb(235,176,93);
+      background: linear-gradient(135deg, rgba(186, 142, 79, 1) 0%, rgba(240,207,180,1) 100%);
+    }
+
+    &:nth-child(4) {
+      background: rgb(59,65,226);
+      background: linear-gradient(135deg, rgba(59,65,226,1) 0%, rgba(180,196,240,1) 100%);
+    }
+
+    &:nth-child(5) {
+      background: rgb(163,163,163);
+      background: linear-gradient(135deg, rgba(103, 101, 101, 1) 0%, rgba(218,221,198,1) 100%);
+    }
+
+    &:nth-child(6) {
+      background: rgb(29,210,71);
+      background: linear-gradient(135deg, rgba(33, 167, 64, 1) 0%, rgba(106,208,121,1) 100%);
+
+      & img {
+        filter: saturate(0) invert(1) brightness(3);
+      }
+    }
+  }
+}
+
+.ch-text-all {
+  padding-left: 1em;
+  padding-right: 0.5em;
+  font-size: 0.8em;
+  color: #125dc2;
+}
+
+.yt-subs-container {
+  display: flex;
+  align-items: center;
+  padding: 0 0.25em;
+  margin-bottom: 0.5em;
+
+  .yt-channels-sc {
+    flex-grow: 1;
+    overflow-x: scroll;
+
+    .yt-ch-body {
+      display: flex;
+      width: max-content;
+    }
+  }
+
+  .yt-channel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5em 0.5em 0.25em;
+    box-sizing: border-box;
+
+    &[data-state="1"] {
+      background: rgba(74, 124, 224, 0.5);
+    }
+
+    &[data-state="2"] {
+      opacity: 0.25;
+    }
+
+    .ch-name {
+      max-width: 48px;
+      font-size: 0.64em;
+      text-align: center;
+    }
+
+    .imageCont {
+      border-radius: 2em;
+      overflow: hidden;
+    }
+  }
+}
+
+.yt-his-container {
+  margin-top: 0.5em;
+
+  .yt-his-title {
+    padding: 0.25em 0.5em;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .yt-his-vids {
+    width: 100%;
+    overflow-x: scroll;
+  }
+
+  .yt-his-scbody {
+    width: max-content;
+    display: flex;
+  }
+
+  .yt-his-vid {
+    width: 8em;
+    margin: 0 0.5em;
+
+    .his-vid-title {
+      max-height: 48px;
+      -webkit-line-clamp: 2;
+      font-size: 0.72em;
+    }
+
+    .his-chname {
+      color: var(--med-txt);
+      font-weight: 400;
+      font-size: 0.64em;
+    }
+  }
+}
+
+.yt-lib-cont {
+  color: var(--med-txt);
+  .yt-lib-icon svg{
+    fill: var(--med-txt);
+  }
+}
