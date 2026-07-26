@@ -299,8 +299,8 @@
 
         var scene = new THREE.Scene();
 
-        var camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 0.1, 1000);
-        camera.position.set(0, 0, 180);
+        var camera = new THREE.PerspectiveCamera(35, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.set(0, 0, 220);
         camera.lookAt(0, 0, 0);
 
         var renderer = new THREE.WebGLRenderer({
@@ -321,8 +321,8 @@
         controls.dampingFactor = 0.08;
         controls.autoRotate = true;
         controls.autoRotateSpeed = 2;
-        controls.minDistance = 80;
-        controls.maxDistance = 400;
+        controls.minDistance = 60;
+        controls.maxDistance = 500;
         controls.update();
 
         var envLight = new THREE.AmbientLight(0x404060, 0.6);
@@ -394,7 +394,7 @@
 
           var maxDim = Math.max(size.x, size.y, size.z);
           if (maxDim > 0) {
-            var scale = 200 / maxDim;
+            var scale = 160 / maxDim;
             modelGroup.scale.setScalar(scale);
           }
 
