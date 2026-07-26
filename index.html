@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Android 17 Cinnamon Bun · API 37 · The Intelligent Android Era</title>
+  <meta name="description" content="Android 17 'Cinnamon Bun' (API 37) technical deep dive: AI-first platform, adaptive UI, AppFunctions, Generational GC, privacy upgrades, and developer migration roadmap." />
+  <meta name="keywords" content="Android 17, Cinnamon Bun, API 37, Android development, AI, AppFunctions, adaptive UI, Jetpack Compose" />
+  <meta name="author" content="Android Developers" />
+  <meta property="og:title" content="Android 17 Cinnamon Bun · The Intelligent Android Era" />
+  <meta property="og:description" content="Technical showcase covering AI integration, adaptive UI, multitasking, performance, privacy, and developer migration for Android 17 (API 37)." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://developer.android.com/about/versions/17" />
+  <meta property="og:image" content="assets/hero.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Android 17 Cinnamon Bun" />
+  <meta name="twitter:description" content="The Intelligent Android Era — AI, adaptive UI, and privacy at the platform level." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="container nav-inner">
+      <a href="#" class="brand" aria-label="Android 17 Home">
+        <span class="brand-mark"></span>
+        <span class="brand-text">Android 17</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#adaptive">Adaptive UI</a></li>
+        <li><a href="#performance">Performance</a></li>
+        <li><a href="#security">Security</a></li>
+        <li><a href="#roadmap">Roadmap</a></li>
+        <li><a href="#compare">Compare</a></li>
+        <li><a href="#media">Media</a></li>
+        <li><a href="#youtube">YouTube</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="container hero-grid">
+      <div class="hero-content reveal">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          Android 17 &middot; API 37 &middot; Cinnamon Bun
+        </div>
+        <h1>The <span class="green">Intelligent</span> Android Era</h1>
+        <p class="hero-sub">
+          AI-powered experiences &middot; Adaptive UI &middot; Enhanced privacy &middot; Performance improvements
+        </p>
+        <p class="hero-desc">
+          Android 17 redefines the platform with on-device AI agents, mandatory adaptive layouts,
+          generational garbage collection, and stricter security boundaries &mdash; giving developers
+          and users a smarter, faster, and more private mobile OS.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#features">Explore features</a>
+          <a class="btn btn-secondary" href="#compare">Compare editions</a>
+          <a class="btn btn-tertiary" href="#roadmap">Migration guide</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-value">API 37</span>
+            <span class="stat-label">Target SDK</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">AI-first</span>
+            <span class="stat-label">Platform direction</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">5+</span>
+            <span class="stat-label">Major feature areas</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual reveal">
+        <div class="device-stack">
+          <div class="floating-card glass">
+            <div class="fc-icon"></div>
+            <div>
+              <strong>AI-first platform</strong>
+              <p>Apps expose functions that on-device agents can discover and orchestrate.</p>
+            </div>
+          </div>
+          <div class="floating-card glass fc-secondary">
+            <div class="fc-icon fc-icon-alt"></div>
+            <div>
+              <strong>Generational GC</strong>
+              <p>Lower pause times and better battery efficiency under load.</p>
+            </div>
+          </div>
+          <div class="device phone glass-device">
+            <div class="device-screen">
+              <div class="mock-ui">
+                <div class="mock-status">
+                  <span></span><span></span><span></span>
+                </div>
+                <div class="mock-content">
+                  <div class="mock-card"></div>
+                  <div class="mock-card"></div>
+                  <div class="mock-card"></div>
+                </div>
+                <div class="mock-bubble"></div>
+              </div>
+            </div>
+          </div>
+          <div class="device tablet glass-device">
+            <div class="device-screen">
+              <div class="mock-ui tablet-ui">
+                <div class="mock-nav"><span></span><span></span><span></span></div>
+                <div class="mock-split">
+                  <div class="mock-panel"></div>
+                  <div class="mock-panel"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="overview" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-tag">Overview</span>
+          <h2>What is Android 17?</h2>
+          <p>
+            Android 17 is a major platform release that shifts the OS toward AI-driven experiences,
+            enforces adaptive UI for large screens, improves runtime efficiency with generational GC,
+            and introduces new privacy boundaries &mdash; all while giving developers the tools to
+            build smarter, more flexible applications.
+          </p>
+        </div>
+        <div class="overview-grid">
+          <article class="overview-card glass reveal">
+            <div class="oc-icon oc-ai"></div>
+            <h3>AI Integration</h3>
+            <p>AppFunctions lets apps expose capabilities that on-device AI agents can discover, invoke, and chain into workflows &mdash; all without leaving the device.</p>
+          </article>
+          <article class="overview-card glass reveal">
+            <div class="oc-icon oc-ui"></div>
+            <h3>Adaptive UI</h3>
+            <p>Compose-first development with mandatory adaptive layouts ensures your app looks great on phones, tablets, foldables, and desktop-sized screens.</p>
+          </article>
+          <article class="overview-card glass reveal">
+            <div class="oc-icon oc-perf"></div>
+            <h3>Performance</h3>
+            <p>Generational garbage collection, lock-free message passing, and stricter app RAM limits deliver smoother animations and better battery life.</p>
+          </article>
+          <article class="overview-card glass reveal">
+            <div class="oc-icon oc-sec"></div>
+            <h3>Privacy &amp; Security</h3>
+            <p>Temporary permissions, scoped contact access, local network permission, and post-quantum cryptography raise the security floor for every user.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-tag">Feature showcase</span>
+          <h2>Key Capabilities</h2>
+          <p>
+            Android 17 introduces features that change how users interact with their devices
+            and how developers build for them.
+          </p>
+        </div>
+        <div class="features-grid">
+          <article class="feature-card glass reveal">
+            <div class="fc-media">
+              <img src="assets/bubbles.webp" alt="App Bubbles floating interface" loading="lazy" />
+            </div>
+            <div class="fc-body">
+              <h3>App Bubbles</h3>
+              <p>Any app can become a floating bubble for quick access. On tablets and foldables, the Bubble Bar provides persistent multitasking without interrupting your workflow.</p>
+              <ul class="fc-list">
+                <li>Floating windows for any app</li>
+                <li>Bubble Bar on large screens</li>
+                <li>Interactive Picture-in-Picture</li>
+              </ul>
+            </div>
+          </article>
+          <article class="feature-card glass reveal">
+            <div class="fc-media">
+              <img src="assets/screen-reactions.webp" alt="Screen Reactions creator workflow" loading="lazy" />
+            </div>
+            <div class="fc-body">
+              <h3>Screen Reactions</h3>
+              <p>Record your screen and your face simultaneously. Perfect for tutorials, game commentary, and creative content &mdash; no third-party app required.</p>
+              <ul class="fc-list">
+                <li>Screen recording + selfie camera</li>
+                <li>Creator-focused workflow</li>
+                <li>System-level integration</li>
+              </ul>
+            </div>
+          </article>
+          <article class="feature-card glass reveal">
+            <div class="fc-media">
+              <img src="assets/gaming.webp" alt="Foldable Gaming layout" loading="lazy" />
+            </div>
+            <div class="fc-body">
+              <h3>Foldable Gaming</h3>
+              <p>A dedicated 50/50 gaming layout splits the screen between gameplay and controls. Virtual controller remapping gives you console-style precision on foldable devices.</p>
+              <ul class="fc-list">
+                <li>50/50 gaming layout</li>
+                <li>Virtual controls</li>
+                <li>Controller remapping</li>
+              </ul>
+            </div>
+          </article>
+          <article class="feature-card glass reveal">
+            <div class="fc-media">
+              <img src="assets/appfunctions.webp" alt="AppFunctions AI integration" loading="lazy" />
+            </div>
+            <div class="fc-body">
+              <h3>AppFunctions</h3>
+              <p>Applications can declare semantic functions that on-device AI agents discover and execute. This enables cross-app automation while keeping data private and on-device.</p>
+              <ul class="fc-list">
+                <li>Apps expose functions to AI agents</li>
+                <li>On-device AI workflows</li>
+                <li>Privacy-preserving automation</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="adaptive" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-tag">Adaptive UI</span>
+          <h2>One Codebase, Every Screen</h2>
+          <p>
+            Android 17 makes adaptive layouts mandatory for apps targeting API 37.
+            Jetpack Compose is the recommended path, with tools to handle
+            phones, tablets, foldables, and desktop modes from a single codebase.
+          </p>
+        </div>
+        <div class="adaptive-layout reveal">
+          <div class="adaptive-visual">
+            <img src="assets/adaptive.webp" alt="Adaptive UI across phone, tablet, and foldable form factors" loading="lazy" />
+          </div>
+          <div class="adaptive-details">
+            <div class="ad-item glass">
+              <div class="ad-icon ad-icon-compact"></div>
+              <div>
+                <h4>Compact (Phone)</h4>
+                <p>Single-pane layouts with bottom navigation and responsive content.</p>
+              </div>
+            </div>
+            <div class="ad-item glass">
+              <div class="ad-icon ad-icon-medium"></div>
+              <div>
+                <h4>Medium (Foldable)</h4>
+                <p>Two-pane layouts that adapt to folded and unfolded postures.</p>
+              </div>
+            </div>
+            <div class="ad-item glass">
+              <div class="ad-icon ad-icon-expanded"></div>
+              <div>
+                <h4>Expanded (Tablet)</h4>
+                <p>Multi-pane layouts with navigation rail and side panels.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="performance" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-tag">Performance</span>
+          <h2>Runtime &amp; Memory Optimizations</h2>
+          <p>
+            Android 17 delivers measurable improvements to garbage collection, memory management,
+            and inter-process communication &mdash; making apps more responsive and battery-efficient.
+          </p>
+        </div>
+        <div class="perf-layout reveal">
+          <div class="perf-image">
+            <img src="assets/performance.webp" alt="Performance metrics and runtime optimizations" loading="lazy" />
+          </div>
+          <div class="perf-content">
+            <div class="perf-item glass">
+              <div class="perf-icon perf-icon-gc"></div>
+              <h4>Generational GC</h4>
+              <p>Separates young and old object heaps to reduce pause times by up to 60% and improve battery efficiency during background work.</p>
+            </div>
+            <div class="perf-item glass">
+              <div class="perf-icon perf-icon-mem"></div>
+              <h4>Memory Limits</h4>
+              <p>Stricter per-app RAM limits prevent runaway processes from degrading system performance, with clear signals for developers to optimize.</p>
+            </div>
+            <div class="perf-item glass">
+              <div class="perf-icon perf-icon-msg"></div>
+              <h4>Lock-Free Messaging</h4>
+              <p>Faster binder and handler message passing reduces latency in UI thread communication and background task dispatch.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="security" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-tag">Privacy &amp; Security</span>
+          <h2>Protecting Users at the Platform Level</h2>
+          <p>
+            Every Android release raises the bar for user privacy. Android 17 introduces
+            temporary permissions, scoped data access, and cryptographic upgrades that
+            protect against emerging threats.
+          </p>
+        </div>
+        <div class="security-layout reveal">
+          <div class="security-content">
+            <div class="sec-item glass">
+              <div class="sec-icon sec-icon-temp"></div>
+              <h4>Temporary Permissions</h4>
+              <p>Grant location, camera, or microphone access for a single session. The permission auto-revokes when the app goes to background.</p>
+            </div>
+            <div class="sec-item glass">
+              <div class="sec-icon sec-icon-contacts"></div>
+              <h4>Scoped Contacts</h4>
+              <p>Apps can request access to specific contacts rather than the entire address book, giving users granular control over their data.</p>
+            </div>
+            <div class="sec-item glass">
+              <div class="sec-icon sec-icon-network"></div>
+              <h4>Local Network Permission</h4>
+              <p>A new runtime permission for discovering and connecting to devices on the local network, preventing unauthorized scanning.</p>
+            </div>
+            <div class="sec-item glass">
+              <div class="sec-icon sec-icon-crypto"></div>
+              <h4>Post-Quantum Cryptography</h4>
+              <p>Android 17 includes NIST-standardized post-quantum cryptographic algorithms to future-proof communications against quantum attacks.</p>
+            </div>
+            <div class="sec-item glass">
+              <div class="sec-icon sec-icon-code"></div>
+              <h4>Safer Dynamic Code Loading</h4>
+              <p>Stricter constraints on dynamic code loading reduce the attack surface for malicious injections and unauthorized modifications.</p>
+            </div>
+          </div>
+          <div class="security-image">
+            <img src="assets/security.webp" alt="Privacy and security shield concept" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="media" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-tag">Camera &amp; Media</span>
+          <h2>Professional-Grade Capture &amp; Playback</h2>
+          <p>
+            Android 17 introduces new imaging and audio capabilities that rival dedicated
+            hardware, giving users and creators more control over their media.
+          </p>
+        </div>
+        <div class="media-grid reveal">
+          <div class="media-image">
+            <img src="assets/camera.webp" alt="Camera and media capabilities" loading="lazy" />
+          </div>
+          <div class="media-cards">
+            <div class="media-item glass">
+              <h4>RAW14 Photography</h4>
+              <p>Capture 14-bit RAW images with greater dynamic range and color depth, giving photography apps access to near-DSLR quality data.</p>
+            </div>
+            <div class="media-item glass">
+              <h4>Eclipsa HDR</h4>
+              <p>Google's next-generation HDR format combines SDR and HDR layers for backward-compatible, stunning high-dynamic-range imagery.</p>
+            </div>
+            <div class="media-item glass">
+              <h4>VVC / H.266</h4>
+              <p>Versatile Video Coding support enables 4K and 8K streaming at significantly lower bitrates, saving bandwidth and storage.</p>
+            </div>
+            <div class="media-item glass">
+              <h4>Extended HE-AAC</h4>
+              <p>Enhanced audio codec support delivers higher fidelity at lower bitrates for streaming and podcast applications.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="roadmap" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-tag">Developer Guide</span>
+          <h2>Migration Roadmap</h2>
+          <p>
+            A practical five-step path to ensure your app targets API 37 smoothly,
+            takes advantage of new capabilities, and avoids common migration pitfalls.
+          </p>
+        </div>
+        <div class="roadmap-steps">
+          <div class="roadmap-step glass reveal">
+            <div class="step-number">01</div>
+            <div class="step-connector"></div>
+            <h3>Target SDK 37</h3>
+            <p>Update your <code>compileSdk</code> and <code>targetSdk</code> to 37. Review behavior changes and test against the new runtime policies.</p>
+          </div>
+          <div class="roadmap-step glass reveal">
+            <div class="step-number">02</div>
+            <div class="step-connector"></div>
+            <h3>Update Compose &amp; Jetpack</h3>
+            <p>Upgrade to the latest Jetpack Compose, CameraX, Media3, and other Jetpack libraries to leverage new APIs and adaptive layout tools.</p>
+          </div>
+          <div class="roadmap-step glass reveal">
+            <div class="step-number">03</div>
+            <div class="step-connector"></div>
+            <h3>Fix Adaptive Layouts</h3>
+            <p>Ensure your UI responds correctly to all window size classes. Use <code>WindowSizeClass</code> API and test on tablets and foldables.</p>
+          </div>
+          <div class="roadmap-step glass reveal">
+            <div class="step-number">04</div>
+            <div class="step-connector"></div>
+            <h3>Optimize Memory</h3>
+            <p>Profile your app against the new RAM limits. Reduce background allocations, audit your object lifecycle, and test with generational GC.</p>
+          </div>
+          <div class="roadmap-step glass reveal">
+            <div class="step-number">05</div>
+            <div class="step-connector"></div>
+            <h3>Integrate AppFunctions</h3>
+            <p>Identify key user flows that can be exposed as AppFunctions. Define semantic actions for AI agents to discover and invoke securely.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="compare" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-tag">Comparison</span>
+          <h2>Android 17 vs Android 16</h2>
+          <p>
+            A side-by-side look at what changed between Android 16 (API 36) and Android 17 (API 37)
+            across the most important platform dimensions.
+          </p>
+        </div>
+        <div class="table-wrapper reveal">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th scope="col">Category</th>
+                <th scope="col">Android 16</th>
+                <th scope="col">Android 17</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cat">AI</td>
+                <td>Basic on-device ML with TensorFlow Lite and ML Kit</td>
+                <td>AppFunctions framework for AI-agent interoperability; on-device agent runtime</td>
+              </tr>
+              <tr>
+                <td class="cat">UI</td>
+                <td>Adaptive layout recommendations</td>
+                <td>Mandatory adaptive layouts for API 37; Compose-first tooling; WindowSizeClass enforcement</td>
+              </tr>
+              <tr>
+                <td class="cat">Multitasking</td>
+                <td>Split-screen and improved large-screen foundations</td>
+                <td>App Bubbles, Bubble Bar, interactive PiP, 50/50 foldable gaming layout</td>
+              </tr>
+              <tr>
+                <td class="cat">Performance</td>
+                <td>ART runtime improvements and background limits</td>
+                <td>Generational GC, lock-free message handling, per-app RAM caps</td>
+              </tr>
+              <tr>
+                <td class="cat">Security</td>
+                <td>Scoped media and photo picker changes</td>
+                <td>Temporary permissions, scoped contacts, local network permission, PQC, safer DCL</td>
+              </tr>
+              <tr>
+                <td class="cat">Media</td>
+                <td>Ultra HDR and AV1 support</td>
+                <td>RAW14, Eclipsa HDR, VVC/H.266, extended HE-AAC</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="youtube" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-tag">Video</span>
+          <h2>Android on YouTube</h2>
+          <p>
+            Stay up to date with the latest Android platform announcements, developer guides,
+            and Google I/O keynotes from the official Android Developers channel.
+          </p>
+        </div>
+        <div class="youtube-layout reveal">
+          <div class="youtube-card glass">
+            <div class="youtube-cover">
+              <img src="assets/youtube-cover.webp" alt="Android YouTube Channel" loading="lazy" />
+            </div>
+            <div class="youtube-body">
+              <h3>Android Developers</h3>
+              <p>
+                The official YouTube channel for Android developers. Find the latest videos
+                on platform features, API changes, design best practices, and Google I/O sessions.
+              </p>
+              <a href="https://www.youtube.com/channel/UC9M7-jzdU8CVrQo1JwmIdWA" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                Visit channel
+              </a>
+            </div>
+          </div>
+          <div class="youtube-embed glass">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/thfNTC9x_Ys?rel=0"
+              title="Adaptive development for Android 17"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              loading="lazy">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="brand-mark"></span>
+          <span>Android 17 &ldquo;Cinnamon Bun&rdquo; &middot; API 37</span>
+        </div>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="#hero">Top</a>
+          <a href="#overview">Overview</a>
+          <a href="#features">Features</a>
+          <a href="#roadmap">Roadmap</a>
+          <a href="#compare">Compare</a>
+          <a href="#youtube">YouTube</a>
+        </nav>
+        <p class="footer-note">
+          This is a technical showcase page. All Android 17 features described are based on
+          official Google announcements and developer documentation.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
