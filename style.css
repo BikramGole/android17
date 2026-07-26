@@ -1476,6 +1476,51 @@ code {
   line-height: 1.6;
 }
 
+/* ----- 3D Model Embeds ----- */
+.android-3d-section {
+  padding: 40px 0 60px;
+}
+
+.android-3d-embed {
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.android-3d-embed iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+  background: transparent;
+  display: block;
+  border-radius: 20px;
+}
+
+.android-3d-embed #api-frame {
+  min-height: 340px;
+  background: transparent;
+}
+
+.android-3d-embed iframe + .android-bot-fallback {
+  display: none;
+}
+
+.android-phone-img {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.android-phone-img img {
+  max-height: 560px;
+  width: auto;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  box-shadow: 0 12px 48px rgba(0,0,0,0.5);
+}
+
+
+
 /* ===== Animation System ===== */
 
 /* ----- Keyframes ----- */
