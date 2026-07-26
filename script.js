@@ -283,27 +283,4 @@
     });
   })();
 
-  /* ===== 11. Sketchfab Viewer API (Android Bot) ===== */
-  (function () {
-    var iframe = document.getElementById('api-frame');
-    if (!iframe || typeof Sketchfab === 'undefined') return;
-
-    var uid = '635ee1a708c54e78aa104386f2f64655';
-    var client = new Sketchfab(iframe);
-
-    client.init(uid, {
-      autostart: 1,
-      preload: 1,
-      transparent: 1,
-      success: function onSuccess(api) {
-        api.start();
-        api.addEventListener('viewerready', function () {
-          var container = document.getElementById('android-bot-container');
-          if (container) container.classList.add('loaded');
-        });
-      },
-      error: function onError() {}
-    });
-  })();
-
 })();
