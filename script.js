@@ -290,13 +290,17 @@
     if (!canvas || !container) return;
 
     import('three').then(function (THREE) {
-      import('three/addons/loaders/OBJLoader.js').then(function (OBJLoaderMod) {
-        var OBJLoader = OBJLoaderMod.OBJLoader;
+      Promise.all([
+        import('three/addons/loaders/OBJLoader.js'),
+        import('three/addons/controls/OrbitControls.js')
+      ]).then(function (mods) {
+        var OBJLoader = mods[0].OBJLoader;
+        var OrbitControls = mods[1].OrbitControls;
 
         var scene = new THREE.Scene();
 
-        var camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-        camera.position.set(0, 0, 250);
+        var camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.set(0, 0, 180);
         camera.lookAt(0, 0, 0);
 
         var renderer = new THREE.WebGLRenderer({
@@ -307,98 +311,131 @@
         renderer.setSize(container.clientWidth, container.clientHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.setClearColor(0x000000, 0);
-        renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1.2;
 
         scene.background = null;
 
-        var ambientLight = new THREE.AmbientLight(0x404040, 0.5);
-        scene.add(ambientLight);
+        var controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.08;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 2;
+        controls.minDistance = 80;
+        controls.maxDistance = 400;
+        controls.update();
+
+        var envLight = new THREE.AmbientLight(0x404060, 0.6);
+        scene.add(envLight);
 
         var keyLight = new THREE.DirectionalLight(0xffffff, 2.5);
-        keyLight.position.set(5, 10, 10);
-        keyLight.castShadow = true;
+        keyLight.position.set(8, 12, 10);
         scene.add(keyLight);
 
         var fillLight = new THREE.DirectionalLight(0x3ddc84, 0.8);
-        fillLight.position.set(-5, 0, 5);
+        fillLight.position.set(-6, 4, 6);
         scene.add(fillLight);
 
-        var rimLight = new THREE.DirectionalLight(0xffffff, 1);
-        rimLight.position.set(0, -5, -10);
+        var rimLight = new THREE.DirectionalLight(0x4488ff, 0.6);
+        rimLight.position.set(0, -8, -12);
         scene.add(rimLight);
 
-        var greenLight = new THREE.PointLight(0x3ddc84, 0.5, 50);
-        greenLight.position.set(0, 0, 5);
+        var greenLight = new THREE.PointLight(0x3ddc84, 0.4, 60);
+        greenLight.position.set(0, -10, 8);
         scene.add(greenLight);
+
+        // subtle green ground glow
+        var glowRing = new THREE.Mesh(
+          new THREE.RingGeometry(30, 50, 64),
+          new THREE.MeshBasicMaterial({ color: 0x3ddc84, transparent: true, opacity: 0.06, side: THREE.DoubleSide })
+        );
+        glowRing.rotation.x = -Math.PI / 2;
+        glowRing.position.y = -45;
+        scene.add(glowRing);
 
         var modelGroup = new THREE.Group();
         scene.add(modelGroup);
 
         var mat = new THREE.MeshPhysicalMaterial({
           color: 0x3ddc84,
-          metalness: 0.1,
-          roughness: 0.3,
-          clearcoat: 0.2,
+          metalness: 0.05,
+          roughness: 0.25,
+          clearcoat: 0.15,
           side: THREE.DoubleSide,
         });
 
-        var debugGeo = new THREE.BoxGeometry(30, 30, 30);
-        new THREE.Box3().setFromObject(modelGroup);
+        var modelParts = [];
+        var partsToLoad = 3;
+        var loaders = [
+          'assets/android-bot/model_0.obj',
+          'assets/android-bot/model_1.obj',
+          'assets/android-bot/model_2.obj'
+        ];
 
-        var debugMat = new THREE.MeshPhysicalMaterial({
-          color: 0x3ddc84,
-          metalness: 0.1,
-          roughness: 0.3,
-          side: THREE.DoubleSide,
-        });
-        var debugBox = new THREE.Mesh(debugGeo, debugMat);
-        debugBox.position.set(0, 0, 0);
-        modelGroup.add(debugBox);
+        function onPartLoaded(obj) {
+          obj.traverse(function (child) {
+            if (child.isMesh) {
+              child.material = mat;
+            }
+          });
+          modelParts.push(obj);
+          partsToLoad--;
+          if (partsToLoad === 0) assembleModel();
+        }
+
+        function assembleModel() {
+          modelParts.forEach(function (p) { modelGroup.add(p); });
+
+          var box = new THREE.Box3().setFromObject(modelGroup);
+          var center = box.getCenter(new THREE.Vector3());
+          var size = box.getSize(new THREE.Vector3());
+
+          modelGroup.position.sub(center);
+
+          var maxDim = Math.max(size.x, size.y, size.z);
+          if (maxDim > 0) {
+            var scale = 200 / maxDim;
+            modelGroup.scale.setScalar(scale);
+          }
+
+          box.setFromObject(modelGroup);
+          var halfZ = box.max.z;
+
+          // Add eyes
+          var eyeMat = new THREE.MeshPhysicalMaterial({
+            color: 0xffffff,
+            metalness: 0,
+            roughness: 0.1,
+          });
+          var pupilMat = new THREE.MeshPhysicalMaterial({
+            color: 0x111111,
+            metalness: 0,
+            roughness: 0.3,
+          });
+
+          var eyeY = box.min.y + size.y * 0.62;
+          var eyeSpacing = size.x * 0.08 * scale;
+          var eyeZ = halfZ + 2;
+
+          [-1, 1].forEach(function (side) {
+            var eye = new THREE.Mesh(new THREE.SphereGeometry(2.5, 16, 16), eyeMat);
+            eye.position.set(side * eyeSpacing, eyeY, eyeZ);
+
+            var pupil = new THREE.Mesh(new THREE.SphereGeometry(1.2, 12, 12), pupilMat);
+            pupil.position.set(side * eyeSpacing, eyeY, eyeZ + 1.5);
+            pupil.position.x += side * 0.5;
+
+            modelGroup.add(eye);
+            modelGroup.add(pupil);
+          });
+
+          container.classList.add('loaded');
+        }
 
         var loader = new OBJLoader();
-        loader.load('assets/android-bot/model_2.obj',
-          function (obj) {
-            modelGroup.remove(debugBox);
-
-            var meshCount = 0;
-            obj.traverse(function (child) {
-              if (child.isMesh) {
-                meshCount++;
-                child.material = mat;
-                child.castShadow = true;
-                child.receiveShadow = true;
-              }
-            });
-
-            var box = new THREE.Box3().setFromObject(obj);
-            var center = box.getCenter(new THREE.Vector3());
-            var size = box.getSize(new THREE.Vector3());
-
-            obj.position.sub(center);
-
-            var maxDim = Math.max(size.x, size.y, size.z);
-            if (maxDim > 0) {
-              var scale = 140 / maxDim;
-              obj.scale.setScalar(scale);
-            }
-
-            modelGroup.add(obj);
-            container.classList.add('loaded');
-          },
-          function (xhr) {
-            if (xhr.total) {
-              var pct = Math.round(xhr.loaded / xhr.total * 100);
-              if (pct % 25 === 0) console.log('OBJ ' + pct + '% loaded');
-            }
-          },
-          function (err) {
-            console.error('OBJ load error:', err);
-            modelGroup.remove(debugBox);
-          }
-        );
+        loaders.forEach(function (path) {
+          loader.load(path, onPartLoaded, undefined, function () { partsToLoad--; if (partsToLoad === 0) assembleModel(); });
+        });
 
         function resize() {
           var w = container.clientWidth;
@@ -410,13 +447,11 @@
         }
 
         window.addEventListener('resize', resize);
-
-        var ro = new ResizeObserver(function () { resize(); });
-        ro.observe(container);
+        new ResizeObserver(function () { resize(); }).observe(container);
 
         function animate() {
           requestAnimationFrame(animate);
-          modelGroup.rotation.y += 0.008;
+          controls.update();
           renderer.render(scene, camera);
         }
 
