@@ -295,8 +295,8 @@
 
         var scene = new THREE.Scene();
 
-        var camera = new THREE.PerspectiveCamera(30, container.clientWidth / container.clientHeight, 0.1, 1000);
-        camera.position.set(0, 0, 280);
+        var camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.set(0, 0, 250);
         camera.lookAt(0, 0, 0);
 
         var renderer = new THREE.WebGLRenderer({
@@ -347,6 +347,7 @@
                 roughness: 0.3,
                 clearcoat: 0.2,
                 envMapIntensity: 0.4,
+                side: THREE.DoubleSide,
               });
               child.castShadow = true;
               child.receiveShadow = true;
@@ -356,6 +357,7 @@
           var box = new THREE.Box3().setFromObject(obj);
           var center = box.getCenter(new THREE.Vector3());
           obj.position.sub(center);
+          obj.scale.setScalar(0.5);
 
           modelGroup.add(obj);
           container.classList.add('loaded');
