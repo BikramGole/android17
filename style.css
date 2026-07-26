@@ -1053,7 +1053,7 @@ code {
 /* ----- Overview Grid ----- */
 .overview-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 18px;
 }
 
@@ -2819,6 +2819,10 @@ code {
 
   .overview-grid {
     grid-template-columns: 1fr;
+  }
+
+  .overview-card:last-child {
+    margin-bottom: 0;
   }
 
   .features-grid {
