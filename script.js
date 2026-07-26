@@ -337,18 +337,34 @@
         var modelGroup = new THREE.Group();
         scene.add(modelGroup);
 
+        var mat = new THREE.MeshPhysicalMaterial({
+          color: 0x3ddc84,
+          metalness: 0.1,
+          roughness: 0.3,
+          clearcoat: 0.2,
+          side: THREE.DoubleSide,
+        });
+
+        var debugGeo = new THREE.BoxGeometry(30, 30, 30);
+        new THREE.Box3().setFromObject(modelGroup);
+
+        var debugMat = new THREE.MeshPhysicalMaterial({
+          color: 0x3ddc84,
+          metalness: 0.1,
+          roughness: 0.3,
+          side: THREE.DoubleSide,
+        });
+        var debugBox = new THREE.Mesh(debugGeo, debugMat);
+        debugBox.position.set(0, 0, 0);
+        modelGroup.add(debugBox);
+
         var loader = new OBJLoader();
         loader.load('assets/android-bot/model_2.obj', function (obj) {
+          modelGroup.remove(debugBox);
+
           obj.traverse(function (child) {
             if (child.isMesh) {
-              child.material = new THREE.MeshPhysicalMaterial({
-                color: 0x3ddc84,
-                metalness: 0.1,
-                roughness: 0.3,
-                clearcoat: 0.2,
-                envMapIntensity: 0.4,
-                side: THREE.DoubleSide,
-              });
+              child.material = mat;
               child.castShadow = true;
               child.receiveShadow = true;
             }
@@ -356,11 +372,20 @@
 
           var box = new THREE.Box3().setFromObject(obj);
           var center = box.getCenter(new THREE.Vector3());
+          var size = box.getSize(new THREE.Vector3());
+
           obj.position.sub(center);
-          obj.scale.setScalar(0.5);
+
+          var maxDim = Math.max(size.x, size.y, size.z);
+          if (maxDim > 0) {
+            var scale = 140 / maxDim;
+            obj.scale.setScalar(scale);
+          }
 
           modelGroup.add(obj);
           container.classList.add('loaded');
+        }, undefined, function () {
+          modelGroup.remove(debugBox);
         });
 
         function resize() {
