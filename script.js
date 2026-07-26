@@ -258,6 +258,21 @@
     update();
   })();
 
+  /* ===== 5.5b Stats Counter Animation ===== */
+  (function () {
+    var statValues = qa('.stat-value');
+    if (!statValues.length) return;
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    Array.prototype.forEach.call(statValues, function (s) { obs.observe(s); });
+  })();
+
   /* ===== 5.6 Feature Card Scroll Lift ===== */
   (function () {
     var cards = qa('.feature-card, .overview-card, .perf-item, .sec-item, .roadmap-step');
