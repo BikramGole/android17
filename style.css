@@ -146,6 +146,10 @@ img {
   height: auto;
   display: block;
 }
+img[loading="lazy"] {
+  background: var(--card);
+  color: transparent;
+}
 
 ul {
   list-style: none;
@@ -1528,6 +1532,7 @@ code {
 
 .compare-table td:last-child {
   position: relative;
+  background: linear-gradient(135deg, rgba(61, 220, 132, 0.03), rgba(138, 180, 248, 0.03));
 }
 
 .compare-table td:last-child::after {
@@ -1541,6 +1546,22 @@ code {
 
 .compare-table tr:hover td:last-child::after {
   animation: greenPulse 1.5s ease-in-out infinite;
+}
+
+/* ----- image aspect-ratio containers for CLS prevention ----- */
+.feature-card img,
+.adaptive-visual img,
+.perf-image img,
+.security-image img,
+.media-image img,
+.youtube-cover img {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+}
+.hero img {
+  aspect-ratio: auto;
 }
 
 .compare-table .cat {
