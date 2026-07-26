@@ -359,34 +359,46 @@
         modelGroup.add(debugBox);
 
         var loader = new OBJLoader();
-        loader.load('assets/android-bot/model_2.obj', function (obj) {
-          modelGroup.remove(debugBox);
+        loader.load('assets/android-bot/model_2.obj',
+          function (obj) {
+            modelGroup.remove(debugBox);
 
-          obj.traverse(function (child) {
-            if (child.isMesh) {
-              child.material = mat;
-              child.castShadow = true;
-              child.receiveShadow = true;
+            var meshCount = 0;
+            obj.traverse(function (child) {
+              if (child.isMesh) {
+                meshCount++;
+                child.material = mat;
+                child.castShadow = true;
+                child.receiveShadow = true;
+              }
+            });
+
+            var box = new THREE.Box3().setFromObject(obj);
+            var center = box.getCenter(new THREE.Vector3());
+            var size = box.getSize(new THREE.Vector3());
+
+            obj.position.sub(center);
+
+            var maxDim = Math.max(size.x, size.y, size.z);
+            if (maxDim > 0) {
+              var scale = 140 / maxDim;
+              obj.scale.setScalar(scale);
             }
-          });
 
-          var box = new THREE.Box3().setFromObject(obj);
-          var center = box.getCenter(new THREE.Vector3());
-          var size = box.getSize(new THREE.Vector3());
-
-          obj.position.sub(center);
-
-          var maxDim = Math.max(size.x, size.y, size.z);
-          if (maxDim > 0) {
-            var scale = 140 / maxDim;
-            obj.scale.setScalar(scale);
+            modelGroup.add(obj);
+            container.classList.add('loaded');
+          },
+          function (xhr) {
+            if (xhr.total) {
+              var pct = Math.round(xhr.loaded / xhr.total * 100);
+              if (pct % 25 === 0) console.log('OBJ ' + pct + '% loaded');
+            }
+          },
+          function (err) {
+            console.error('OBJ load error:', err);
+            modelGroup.remove(debugBox);
           }
-
-          modelGroup.add(obj);
-          container.classList.add('loaded');
-        }, undefined, function () {
-          modelGroup.remove(debugBox);
-        });
+        );
 
         function resize() {
           var w = container.clientWidth;
