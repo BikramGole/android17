@@ -283,4 +283,107 @@
     });
   })();
 
+  /* ===== 11. Three.js Android Bot ===== */
+  (function () {
+    var canvas = document.getElementById('android-bot-canvas');
+    var container = document.getElementById('android-bot-container');
+    if (!canvas || !container) return;
+
+    import('three').then(function (THREE) {
+      import('three/addons/loaders/OBJLoader.js').then(function (OBJLoaderMod) {
+        var OBJLoader = OBJLoaderMod.OBJLoader;
+
+        var scene = new THREE.Scene();
+
+        var camera = new THREE.PerspectiveCamera(30, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.set(0, 0, 280);
+        camera.lookAt(0, 0, 0);
+
+        var renderer = new THREE.WebGLRenderer({
+          canvas: canvas,
+          alpha: true,
+          antialias: true
+        });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setClearColor(0x000000, 0);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.2;
+
+        scene.background = null;
+
+        var ambientLight = new THREE.AmbientLight(0x404040, 0.5);
+        scene.add(ambientLight);
+
+        var keyLight = new THREE.DirectionalLight(0xffffff, 2.5);
+        keyLight.position.set(5, 10, 10);
+        keyLight.castShadow = true;
+        scene.add(keyLight);
+
+        var fillLight = new THREE.DirectionalLight(0x3ddc84, 0.8);
+        fillLight.position.set(-5, 0, 5);
+        scene.add(fillLight);
+
+        var rimLight = new THREE.DirectionalLight(0xffffff, 1);
+        rimLight.position.set(0, -5, -10);
+        scene.add(rimLight);
+
+        var greenLight = new THREE.PointLight(0x3ddc84, 0.5, 50);
+        greenLight.position.set(0, 0, 5);
+        scene.add(greenLight);
+
+        var modelGroup = new THREE.Group();
+        scene.add(modelGroup);
+
+        var loader = new OBJLoader();
+        loader.load('assets/android-bot/model_2.obj', function (obj) {
+          obj.traverse(function (child) {
+            if (child.isMesh) {
+              child.material = new THREE.MeshPhysicalMaterial({
+                color: 0x3ddc84,
+                metalness: 0.1,
+                roughness: 0.3,
+                clearcoat: 0.2,
+                envMapIntensity: 0.4,
+              });
+              child.castShadow = true;
+              child.receiveShadow = true;
+            }
+          });
+
+          var box = new THREE.Box3().setFromObject(obj);
+          var center = box.getCenter(new THREE.Vector3());
+          obj.position.sub(center);
+
+          modelGroup.add(obj);
+          container.classList.add('loaded');
+        });
+
+        function resize() {
+          var w = container.clientWidth;
+          var h = container.clientHeight;
+          if (w === 0 || h === 0) return;
+          renderer.setSize(w, h);
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+        }
+
+        window.addEventListener('resize', resize);
+
+        var ro = new ResizeObserver(function () { resize(); });
+        ro.observe(container);
+
+        function animate() {
+          requestAnimationFrame(animate);
+          modelGroup.rotation.y += 0.008;
+          renderer.render(scene, camera);
+        }
+
+        animate();
+      });
+    });
+  })();
+
 })();

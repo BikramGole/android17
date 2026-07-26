@@ -1492,9 +1492,11 @@ code {
 .android-3d-embed {
   max-width: 600px;
   margin: 0 auto;
+  position: relative;
 }
 
-.android-3d-embed iframe {
+.android-3d-embed iframe,
+.android-3d-embed canvas {
   width: 100%;
   aspect-ratio: 16 / 9;
   border: none;
@@ -1502,19 +1504,15 @@ code {
   display: block;
 }
 
-.android-phone-img {
-  display: flex;
-  justify-content: center;
-  margin-top: 24px;
+#android-bot-canvas {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+  display: block;
+  cursor: grab;
 }
 
-.android-phone-img img {
-  max-height: 560px;
-  width: auto;
-  border-radius: 20px;
-  border: 1px solid var(--line);
-  box-shadow: 0 12px 48px rgba(0,0,0,0.5);
-}
+
 
 
 
