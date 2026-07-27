@@ -478,6 +478,12 @@
         this.classList.add('phone-app-tap');
         setTimeout(function () { this.classList.remove('phone-app-tap'); }.bind(this), 300);
       });
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.click();
+        }
+      });
       appsContainer.appendChild(el);
     });
 
