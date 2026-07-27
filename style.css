@@ -1113,6 +1113,24 @@ code {
   gap: 18px;
 }
 
+.features-grid > *,
+.overview-grid > *,
+.media-grid > .media-card,
+.faq-grid > details {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.features-grid > .card-visible,
+.overview-grid > .card-visible,
+.media-grid > .media-card.card-visible,
+.faq-grid > details.card-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .feature-card {
   border-radius: var(--radius);
   overflow: hidden;

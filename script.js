@@ -383,6 +383,27 @@
     });
   })();
 
+  /* ===== 9.4 Staggered Card Reveal ===== */
+  (function () {
+    var grids = qa('.features-grid, .overview-grid, .media-grid, .faq-grid');
+    Array.prototype.forEach.call(grids, function (grid) {
+      var cards = grid.children;
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            Array.prototype.forEach.call(cards, function (card, i) {
+              setTimeout(function () {
+                card.classList.add('card-visible');
+              }, i * 80);
+            });
+            obs.unobserve(grid);
+          }
+        });
+      }, { threshold: 0.1 });
+      obs.observe(grid);
+    });
+  })();
+
   /* ===== 9.5 Image Lazy Loading Blur Removal ===== */
   (function () {
     var imgs = qa('img[loading="lazy"]');
