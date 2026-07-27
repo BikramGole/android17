@@ -149,6 +149,15 @@ img {
 img[loading="lazy"] {
   background: var(--card);
   color: transparent;
+  filter: blur(10px);
+  transition: filter 0.4s ease;
+}
+img[loading="lazy"]:not([src^="data"]) {
+  filter: none;
+}
+img[loading="lazy"].loaded,
+img[loading="lazy"][complete] {
+  filter: none;
 }
 
 ul {

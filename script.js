@@ -383,6 +383,19 @@
     });
   })();
 
+  /* ===== 9.5 Image Lazy Loading Blur Removal ===== */
+  (function () {
+    var imgs = qa('img[loading="lazy"]');
+    Array.prototype.forEach.call(imgs, function (img) {
+      if (img.complete) {
+        img.classList.add('loaded');
+      } else {
+        img.addEventListener('load', function () { img.classList.add('loaded'); });
+        img.addEventListener('error', function () { img.classList.add('loaded'); });
+      }
+    });
+  })();
+
   /* ===== 10. Image Hover Scale for all feature images ===== */
   (function () {
     qa('.fc-media img, .adaptive-visual img, .perf-image img, .security-image img, .media-image img, .youtube-cover img').forEach(function (img) {
