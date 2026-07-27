@@ -1250,19 +1250,14 @@ code {
 .fc-media {
   overflow: hidden;
   background: var(--bg2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.fc-media img {
-  width: auto;
-  max-width: 100%;
-  max-height: 320px;
+.fc-media img,
+.fc-media video {
+  width: 100%;
   height: auto;
   display: block;
   transition: transform 0.5s ease;
-  object-fit: contain;
 }
 
 .feature-card:hover .fc-media img {
