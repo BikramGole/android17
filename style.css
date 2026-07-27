@@ -1645,6 +1645,85 @@ code {
   line-height: 1.55;
 }
 
+/* ----- Get Android 17 ----- */
+.get-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.get-card {
+  padding: 28px 24px;
+  border-radius: var(--radius);
+  text-align: center;
+  transition: transform var(--transition), border-color var(--transition);
+}
+
+.get-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(61, 220, 132, 0.25);
+}
+
+.get-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(61, 220, 132, 0.15), rgba(61, 220, 132, 0.05));
+  border: 1px solid rgba(61, 220, 132, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.get-icon .material-symbols-outlined {
+  font-size: 28px;
+  color: #3ddc84;
+  font-variation-settings: 'FILL' 1;
+}
+
+.get-card h3 {
+  font-size: 1rem;
+  margin: 0 0 8px;
+}
+
+.get-card p {
+  font-size: 0.85rem;
+  color: var(--muted2);
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+
+.get-tag {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 100px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  background: rgba(61, 220, 132, 0.1);
+  color: #3ddc84;
+  border: 1px solid rgba(61, 220, 132, 0.2);
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'liga';
+}
+
 /* ----- YouTube ----- */
 .youtube-layout {
   display: grid;
