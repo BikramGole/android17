@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import React from 'react';
+import {useSelector} from 'react-redux';
 
-import {Icon, Image, LazyComponent} from 'components/utils';
-import {dispatchAction, dispatchAct} from 'store/actions';
+import {Icon} from 'components/utils';
 
 export const PlaystoreApp = () => {
   const app = useSelector(state => state.home.apps.playstore || {});

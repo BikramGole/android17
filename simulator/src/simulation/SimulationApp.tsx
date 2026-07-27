@@ -104,6 +104,7 @@ const SimulationApp: React.FC = () => {
     { id: 'location', label: 'Location', icon: 'location_on', active: sim.locationOn, toggle: sim.toggleLocation },
     { id: 'darkmode', label: 'Dark mode', icon: 'dark_mode', active: sim.darkMode, toggle: sim.toggleDarkMode },
     { id: 'battery', label: 'Battery', icon: 'battery_full', active: true, toggle: () => {} },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   ], [sim.wifiOn, sim.bluetoothOn, sim.dndOn, sim.flashlightOn, sim.airplaneMode, sim.locationOn, sim.darkMode]);
 
   return (

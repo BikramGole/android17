@@ -44,4 +44,5 @@ const Global = createSlice({
   },
 });
 
+export const globalReducer = Global.reducer;
 export default Global.reducer;

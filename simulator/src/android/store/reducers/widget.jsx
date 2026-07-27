@@ -41,4 +41,5 @@ const Widget = createSlice({
   },
 });
 
+export const widgetReducer = Widget.reducer;
 export default Widget.reducer;

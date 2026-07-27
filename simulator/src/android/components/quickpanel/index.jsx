@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Hammer from '@win11react/react-hammerjs';
 import Slider from '@mui/material/Slider';
 import Swiper from 'react-slick';
@@ -44,11 +44,9 @@ export default function QuickPanel() {
     }
   }
 
-  const handleBright = (e, value) => setBrightness(value)
+  const handleBright = (_e, value) => setBrightness(value)
   const extendPanel = () => dispatchAct({ type: "quickpanel/extend" })
-  const collapsePanel = (e) => {
-    dispatchAct({ type: "quickpanel/collapse" })
-  }
+  const collapsePanel = () => dispatchAct({ type: "quickpanel/collapse" })
 
   useEffect(() => {
     dispatchAct({type: "quickpanel/setLazyBright", payload: brightness})

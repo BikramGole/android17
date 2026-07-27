@@ -11,7 +11,7 @@ interface LockScreenProps {
   onOpenShade: () => void;
 }
 
-const LockScreen: React.FC<LockScreenProps> = ({ time, date, charging, batteryLevel, notifications, onUnlock, onOpenShade }) => {
+const LockScreen: React.FC<LockScreenProps> = ({ time, date, charging, batteryLevel, notifications, onUnlock, onOpenShade: _onOpenShade }) => {
   const [swiping, setSwiping] = useState(false);
   const [swipeY, setSwipeY] = useState(0);
 

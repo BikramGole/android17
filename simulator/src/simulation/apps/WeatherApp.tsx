@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 
 interface Forecast {
   day: string;
@@ -41,7 +40,7 @@ const HOURS = [
 ];
 
 const WeatherApp: React.FC = () => {
-  const [unit, setUnit] = useState<'F' | 'C'>('F');
+  const [unit, _setUnit] = useState<'F' | 'C'>('F');
 
   const toC = (f: number) => Math.round((f - 32) * 5 / 9);
   const displayTemp = (f: number) => unit === 'F' ? `${f}°` : `${toC(f)}°`;

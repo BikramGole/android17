@@ -55,7 +55,7 @@ const Home = createSlice({
         state.apps[id].path = tmp_path.strip("-").split("-")
       }
     },
-    goBack: (state, action) => {
+    goBack: (state, _action) => {
       if(state.ishome || state.recent || !state.stack.length) return
       var cr_app = state.stack.at(-1),
           tmp = {...state.apps[cr_app]}
@@ -77,15 +77,15 @@ const Home = createSlice({
     setFavBar: (state, action) => {
       state.favbar = action.payload
     },
-    setHome: (state, action) => {
+    setHome: (state, _action) => {
       state.ishome = true
       state.recent = false
     },
-    setRecent: (state, action) => {
+    setRecent: (state, _action) => {
       state.recent = true
       state.ishome = true
     },
-    closeRecent: (state, action) => {
+    closeRecent: (state, _action) => {
       state.recent = false
       state.ishome = true
     },
@@ -119,7 +119,7 @@ const Home = createSlice({
 
       state.stack = [...tmp]
     },
-    closeAllApps: (state, action) => {
+    closeAllApps: (state, _action) => {
       var tmp = []
 
       for (var i = 0; i < state.stack.length; i++) {
@@ -134,4 +134,5 @@ const Home = createSlice({
   },
 });
 
+export const homeReducer = Home.reducer;
 export default Home.reducer;

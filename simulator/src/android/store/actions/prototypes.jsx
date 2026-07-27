@@ -1,4 +1,4 @@
-const {round, floor, random, min, max, abs} = Math;
+const {round} = Math;
 
 Array.prototype.remove = function(a) {
   var idx = this.indexOf(a)

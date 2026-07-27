@@ -11,10 +11,9 @@ interface StatusBarProps {
   onClick?: () => void;
 }
 
-const StatusBar: React.FC<StatusBarProps> = ({ time, batteryLevel, charging, wifiOn, bluetoothOn, invert, onClick }) => {
+const StatusBar: React.FC<StatusBarProps> = ({ time, batteryLevel, charging, wifiOn, bluetoothOn, darkMode: _darkMode, invert, onClick }) => {
   const c = invert ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.9)';
   const cd = invert ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.4)';
-  const bg = invert ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.15)';
   const fill = charging ? '#3ddc84' : c;
 
   return (

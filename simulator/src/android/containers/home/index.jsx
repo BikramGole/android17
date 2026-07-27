@@ -19,8 +19,8 @@ const apps_order = Object.keys(Applications).map(key => {
 })
 
 function Home() {
-  const [action, setAction] = useState("Tap");
-  const display = useSelector((state) => state.global.display);
+  const [_action, setAction] = useState("Tap");
+  const _display = useSelector((state) => state.global.display);
   const home = useSelector((state) => state.home);
   const favbar = useSelector((state) => state.home.favbar);
   const apps = useSelector((state) => state.home.apps);
@@ -82,7 +82,6 @@ function Home() {
 }
 
 const AppWrapper = ({openedapp})=>{
-  const home = useSelector((state) => state.home);
   const stack = useSelector((state) => state.home.stack);
   const opened_apps = apps_order.filter(x => stack.includes(x));
   const appScroll = useRef();
@@ -162,7 +161,7 @@ const RecentWrapper = ()=>{
     }
   }
 
-  const closeAll = (e)=>{
+  const closeAll = (_e)=>{
     if(recentContainer.current){
       recentContainer.current.classList.toggle('closing-all-apps')
       setTimeout(()=>{
@@ -215,7 +214,7 @@ const RecentWrapper = ()=>{
           initialSlide: home.stack.length,
           speed: 200
         }} ref={recentScroll}>
-        {recent_lag && home.stack.map((item,idx) => {
+        {recent_lag && home.stack.map((item) => {
           var app = apps[item]
           return <MiniApp app={app || {}} handleSwipeUp={handleSwipeUp} key={item}/>
         })}

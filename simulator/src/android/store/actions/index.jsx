@@ -11,13 +11,12 @@ import {
   page3wid,
   page4wid
 } from './data/preset';
-import axios from 'axios';
 import './prototypes';
 
 import whatsapp_data from './data/whatsapp.json';
 import youtube_data from './data/youtube.json';
 
-const {round, floor, random, min, max, abs} = Math;
+const {round, floor, random} = Math;
 
 export const gene_name = (x=10) => random().toString(36).substring(2, x).toLowerCase()
 export const srandom = (seed)=>{
@@ -73,9 +72,7 @@ export const fetchBatteryStatus = () => {
         })
       })
     }
-  }catch(e){
-
-  }
+  }catch(_e){ /* Battery API not available */ }
 }
 
 export const fillZero = (x)=>{
@@ -109,65 +106,14 @@ const fetchActions = () => {
 }
 
 export const fetchWeather = () => {
-  var defaultData = {
-    city: "New york",
-    temperature: "32",
-    icon: "c",
-    predictions: [
-      {
-        date: "2020-01-01",
-        day: "Mon",
-        temperature: "33",
-        icon: "lr"
-      },{
-        date: "2020-01-02",
-        day: "Tue",
-        temperature: "34",
-        icon: "t"
-      },{
-        date: "2020-01-03",
-        day: "Wed",
-        temperature: "35",
-        icon: "lc"
-      },{
-        date: "2020-01-04",
-        day: "Thu",
-        temperature: "36",
-        icon: "hr"
-      }
-    ]
-  }
-
-  var geocodingapi = "https://api.techniknews.net/ipgeo/",
-      weatherapi = "https://www.metaweather.com/api/location"
-
-  if(true) return
-
-  axios.get(geocodingapi).then(res => res.data).then((res) => {
-    defaultData.city = res.regionName + ", " + res.country
-    var woeidurl = weatherapi + `/search/?lattlong=${res.lat},${res.lon}`
-    console.log(woeidurl);
-    axios.get(woeidurl, {
-      "mode": "no-cors",
-      withCredentials: false
-    }).then(res => res.data).then(res => {
-      console.log(res);
-      if(res && res[0]){
-        var weatherurl = weatherapi + "/" + res[0].woeid
-        console.log(weatherurl);
-        // axios.get(weatherurl).then(res => res.data).then(res => {
-          // console.log(res);
-        // })
-      }
-    })
-  }).catch(e => e)
+  // Weather data remains static - real API integration would use navigator.geolocation + OpenWeatherMap
 }
 
 export const loadSettings = () => {
   fetchActions()
   loadApps()
   fetchWeather()
-  const shortUpdates = setInterval(fetchActions, 10000);
+  const _shortUpdates = setInterval(fetchActions, 10000);
   window.onresize = ()=>{
     store.dispatch({type: "global/resolution", payload: {
       width: window.innerWidth,
@@ -270,7 +216,7 @@ export const loadApps = ()=>{
     }
   }
 
-  Object.keys(homelist).forEach((key, i) => {
+  Object.keys(homelist).forEach((key) => {
     store.dispatch({type: "home/setSlide", payload: {
       id: key,
       data: homelist[key]
@@ -346,13 +292,13 @@ const loadYouTube = ()=>{
   tmp.watch = {}
   tmp.comp = false
 
-  Object.keys(tmp.channels).forEach((key, i) => {
+  Object.keys(tmp.channels).forEach((key) => {
     var chnl = {...tmp.channels[key]}
     chnl.id = key
     tmp.channels[key] = {...chnl}
   })
 
-  Object.keys(tmp.vids).forEach((key, i) => {
+  Object.keys(tmp.vids).forEach((key) => {
     var ytvid = {...tmp.vids[key]}
     ytvid.id = key
     ytvid.views = Number(ytvid.views)

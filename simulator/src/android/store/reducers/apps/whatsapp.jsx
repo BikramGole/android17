@@ -70,7 +70,7 @@ const WhatsApp = createSlice({
     }
   },
   extraReducers: {
-    'home/goBack': (state, action) => {
+    'home/goBack': (state, _action) => {
       state.media.vis = false
       state.status.vis = false
       state.comp = false
@@ -80,4 +80,5 @@ const WhatsApp = createSlice({
   }
 });
 
+export const whatsappReducer = WhatsApp.reducer;
 export default WhatsApp.reducer;

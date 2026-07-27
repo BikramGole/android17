@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 
-import {Icon, Image, LazyComponent} from 'components/utils';
-import {dispatchAction, dispatchAct} from 'store/actions';
+import {Icon, Image} from 'components/utils';
+import {dispatchAct} from 'store/actions';
 import {Home, ViewPage, TrendingPage, SubsPage, LibPage} from './extra';
 import './youtube.scss';
 
@@ -29,7 +29,7 @@ export const YoutubeApp = () => {
         }
       }})
     }
-  }, [app])
+  }, [app]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return <AppContainer app={app} show={show}/>
 }

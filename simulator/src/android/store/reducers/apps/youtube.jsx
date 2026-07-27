@@ -18,7 +18,7 @@ const YouTube = createSlice({
       state.watch.id = action.payload
       state.comp = true
     },
-    closeVid: (state, action) => {
+    closeVid: (state, _action) => {
       state.watch.id = null
       state.comp = false
     },
@@ -33,10 +33,11 @@ const YouTube = createSlice({
     }
   },
   extraReducers: {
-    'home/goBack': (state, action) => {
+    'home/goBack': (state, _action) => {
       state.comp = false
     }
   }
 });
 
+export const youtubeReducer = YouTube.reducer;
 export default YouTube.reducer;

@@ -85,24 +85,24 @@ const QuickPanel = createSlice({
   name: "quickpanel",
   initialState: intialState,
   reducers: {
-    open: (state, action) => {
+    open: (state, _action) => {
       state.open = true;
     },
-    close: (state, action) => {
+    close: (state, _action) => {
       state.open = false;
       state.extended = false;
     },
-    toggle: (state, action) => {
+    toggle: (state, _action) => {
       state.open = !state.open;
       if (!state.open) {
         state.extended = false;
       }
     },
-    extend: (state, action) => {
+    extend: (state, _action) => {
       state.open = true;
       state.extended = true;
     },
-    collapse: (state, action) => {
+    collapse: (state, _action) => {
       state.open = true;
       state.extended = false;
     },
@@ -117,4 +117,5 @@ const QuickPanel = createSlice({
   },
 });
 
+export const quickpanelReducer = QuickPanel.reducer;
 export default QuickPanel.reducer;

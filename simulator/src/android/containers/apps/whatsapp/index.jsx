@@ -1,8 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 
-import {Icon, Image, LazyComponent} from 'components/utils';
-import {dispatchAction, dispatchAct} from 'store/actions';
+import {Icon, Image} from 'components/utils';
+import {dispatchAct} from 'store/actions';
 import Swiper from 'react-slick';
 
 import './whatsapp.scss';
@@ -39,7 +39,7 @@ export const WhatsappApp = () => {
         }
       }})
     }
-  }, [app])
+  }, [app]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return <AppContainer app={app} show={show}/>
 }
@@ -65,8 +65,8 @@ const AppContainer = ({app, show}) => {
       var tb = Math.round((swleft*4)/swidth)
       tb = Math.max(0, Math.min(3, tb))
       setTab(tb)
-    }catch(err){
-      console.log(err)
+    }catch(_err){
+      // Silently handle resize calculation errors
     }
   }
 
@@ -106,7 +106,7 @@ const AppContainer = ({app, show}) => {
             </div>
           </div>
           <NavBar className="home-nav-tab" tab={tab} options={[
-            <Icon mui="PhotoCamera" round w={22}/>,"CHATS","STATUS","CALLS"
+            <Icon key="camera" mui="PhotoCamera" round w={22}/>, "CHATS", "STATUS", "CALLS"
           ]} onClick={clickTabHandler}/>
           <div className="whatsapp-home-page">
             <Swiper className="whatsapp-home-swiper full-height-swiper" {...{

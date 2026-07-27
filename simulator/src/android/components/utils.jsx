@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {useSelector} from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactPlayer from 'react-player';
 
@@ -11,7 +10,7 @@ import * as FaRegIcons from '@fortawesome/free-regular-svg-icons';
 import * as MUIcons from '@mui/icons-material';
 import * as AllIcons from 'components/icons';
 
-const {round, floor, random, min, max, abs} = Math;
+const {floor} = Math;
 
 export const MaterialIcon = (props) => {
   var icon = props.mui;
@@ -154,7 +153,7 @@ export const Image = (props) => {
 }
 
 export const isValidURL = (str)=>{
-  var res = str.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+  var res = str.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g);
   return (res !== null)
 };
 
@@ -190,9 +189,9 @@ export const Video = (props) => {
     }
   });
 
-  const handlePause = (e) => setPlay(false)
-  const handlePlay = (e) => setPlay(true)
-  const togglePlay = (e) => setPlay(!play)
+  const handlePause = (_e) => setPlay(false)
+  const handlePlay = (_e) => setPlay(true)
+  const togglePlay = (_e) => setPlay(!play)
 
   const handleProg = (e)=>{
     setProg(floor(e.playedSeconds))
@@ -243,7 +242,7 @@ export const LazyComponent = ({ show, children }) => {
 
   useEffect(() => {
     if (show && !loaded) setLoad(true);
-  }, [show]);
+  }, [show, loaded]);
 
   return show || loaded ? <>{children}</> : null;
 };

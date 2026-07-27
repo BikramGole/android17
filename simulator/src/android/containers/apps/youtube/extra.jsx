@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {Icon, Image, Video} from 'components/utils';
 import {dispatchAction, dispatchAct} from 'store/actions';
@@ -7,7 +7,7 @@ import './extra.scss';
 
 const posneg = (a,b,seed) => {
   var sa = a.csum(), sb = b.csum(), sd = seed.csum()
-  return (sa + sb)%2 == sd%2==0 ? 1:-1
+  return ((sa + sb) % 2) === (sd % 2) ? 1 : -1
 }
 
 const pseudorandom = (arr,seed)=>{
@@ -15,7 +15,7 @@ const pseudorandom = (arr,seed)=>{
   return arr.sort((a,b) => posneg(a,b,seed))
 }
 
-export const ViewPage = (props)=>{
+export const ViewPage = (_props)=>{
   const [liked, setLiked] = useState(-1)
   const [loadSugg, setLoad] = useState(false)
   const ytwatch = useRef()
@@ -35,7 +35,7 @@ export const ViewPage = (props)=>{
     return channel
   })
 
-  const handleFullReq = (e)=>{
+  const handleFullReq = (_e)=>{
     if(ydata.comp) return
     dispatchAct({type: 'youtube/setProp', payload:{
       key: 'comp', value: true
@@ -168,7 +168,7 @@ export const ViewPage = (props)=>{
   ) : null
 }
 
-export const TrendingPage = (props)=>{
+export const TrendingPage = (_props)=>{
   const ydata = useSelector(state => state.youtube)
   const [tab, setTab] = useState(0)
 
@@ -217,7 +217,7 @@ export const TrendingPage = (props)=>{
   )
 }
 
-export const SubsPage = (props)=>{
+export const SubsPage = (_props)=>{
   const [chid, setId] = useState("")
   const ydata = useSelector(state => state.youtube)
 
@@ -277,7 +277,7 @@ export const SubsPage = (props)=>{
   )
 }
 
-export const LibPage = (props)=>{
+export const LibPage = (_props)=>{
   const ydata = useSelector(state => state.youtube)
 
   return (
@@ -329,7 +329,7 @@ export const LibPage = (props)=>{
   )
 }
 
-export const Home = (props)=>{
+export const Home = (_props)=>{
   const ydata = useSelector(state => state.youtube)
 
   return (

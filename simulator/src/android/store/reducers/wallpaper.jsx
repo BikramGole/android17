@@ -17,4 +17,5 @@ const wallSlice = createSlice({
   }
 })
 
+export const wallpaperReducer = wallSlice.reducer;
 export default wallSlice.reducer;

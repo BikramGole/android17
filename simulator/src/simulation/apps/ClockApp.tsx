@@ -30,7 +30,7 @@ const ClockApp: React.FC = () => {
       clearInterval(swRef.current);
     }
     return () => clearInterval(swRef.current);
-  }, [swRunning]);
+  }, [swRunning, swTime]);
 
   useEffect(() => {
     if (timerRunning && timerRemaining > 0) {
