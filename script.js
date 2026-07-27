@@ -444,6 +444,7 @@
     var appsContainer = document.getElementById('phone-apps');
     var bubblesContainer = document.getElementById('phone-bubbles');
     var reactionsContainer = document.getElementById('phone-reactions');
+    var phoneScreen = document.getElementById('phone-screen');
     var phoneFrame = document.querySelector('.phone-frame');
     if (!appsContainer) return;
 
@@ -490,12 +491,19 @@
     /* Bubble icons (SVG) */
     if (bubblesContainer) {
       var bubbles = [
-        { icon: '<svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>', color: '#34b7f1' },
-        { icon: '<svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg>', color: '#4285f4' },
-        { icon: '<svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>', color: '#ea4335' },
+        { label: 'Messages', icon: '<svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>', color: '#34b7f1' },
+        { label: 'Notes', icon: '<svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg>', color: '#4285f4' },
+        { label: 'Music', icon: '<svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>', color: '#ea4335' },
       ];
+      var bubblePreviews = [];
+
+      function removePreviews() {
+        bubblePreviews.forEach(function (p) { if (p.parentNode) p.parentNode.removeChild(p); });
+        bubblePreviews = [];
+      }
 
       function toggleBubbles() {
+        removePreviews();
         bubblesContainer.innerHTML = '';
         var visible = Math.random() > 0.3;
         if (!visible) return;
@@ -505,6 +513,15 @@
           el.style.background = b.color;
           el.style.animation = 'fadeIn 0.3s ease ' + (i * 0.1) + 's both';
           el.innerHTML = b.icon;
+          el.addEventListener('click', function (e) {
+            e.stopPropagation();
+            removePreviews();
+            var preview = document.createElement('div');
+            preview.className = 'phone-bubble-preview';
+            preview.textContent = b.label;
+            el.appendChild(preview);
+            bubblePreviews.push(preview);
+          });
           bubblesContainer.appendChild(el);
         });
       }
@@ -526,22 +543,51 @@
         el.className = 'phone-reaction';
         el.innerHTML = '<svg viewBox="0 0 24 24" fill="' + r.color + '">' + r.path + '</svg>';
         el.style.animation = 'floatReaction 2s ease-in-out ' + (i * 0.3) + 's infinite';
+        el.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var screenRect = phoneScreen.getBoundingClientRect();
+          var elRect = el.getBoundingClientRect();
+          var cx = elRect.left - screenRect.left + elRect.width / 2;
+          var cy = elRect.top - screenRect.top + elRect.height / 2;
+          for (var p = 0; p < 8; p++) {
+            var dot = document.createElement('div');
+            dot.className = 'phone-reaction-burst';
+            var angle = (p / 8) * Math.PI * 2;
+            var dist = 20 + Math.random() * 20;
+            dot.style.setProperty('--bx', Math.cos(angle) * dist + 'px');
+            dot.style.setProperty('--by', Math.sin(angle) * dist + 'px');
+            dot.style.background = r.color;
+            dot.style.left = cx + 'px';
+            dot.style.top = cy + 'px';
+            phoneScreen.appendChild(dot);
+            setTimeout(function (d) { if (d.parentNode) d.parentNode.removeChild(d); }, 600, dot);
+          }
+        });
         reactionsContainer.appendChild(el);
       });
     }
 
-    /* Add keyframe for reactions */
-    if (!document.getElementById('sim-keyframes')) {
-      var style = document.createElement('style');
-      style.id = 'sim-keyframes';
-      style.textContent =
-        '@keyframes floatReaction {' +
-        '0%,100%{transform:translateY(0) rotate(0deg)}' +
-        '25%{transform:translateY(-6px) rotate(5deg)}' +
-        '75%{transform:translateY(-4px) rotate(-5deg)}' +
-        '}';
-      document.head.appendChild(style);
-    }
+    /* Live Update notifications */
+    (function () {
+      var screen = phoneScreen;
+      if (!screen) return;
+      var notifLabels = [
+        { app: 'Messages', text: 'You have 3 new messages', color: '#34b7f1', icon: '<svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2z"/></svg>' },
+        { app: 'Calendar', text: 'Meeting in 15 minutes', color: '#4285f4', icon: '<svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>' },
+        { app: 'Live Update', text: 'Package delivered today', color: '#34a853', icon: '<svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/></svg>' },
+      ];
+      function showNotification() {
+        var n = notifLabels[Math.floor(Math.random() * notifLabels.length)];
+        var el = document.createElement('div');
+        el.className = 'phone-notification';
+        el.innerHTML =
+          '<div class="phone-notification-icon" style="background:' + n.color + '">' + n.icon + '</div>' +
+          '<div class="phone-notification-text"><strong>' + n.app + '</strong>' + n.text + '</div>';
+        screen.appendChild(el);
+        setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 3000);
+      }
+      setTimeout(function show() { showNotification(); setTimeout(show, 7000 + Math.random() * 6000); }, 3000);
+    })();
   })();
 
   /* ===== 12. Three.js Android Bot ===== */
