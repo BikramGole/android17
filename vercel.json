@@ -1,0 +1,23 @@
+{
+  "buildCommand": "cd simulator && npm install && npm run build",
+  "outputDirectory": ".",
+  "rewrites": [
+    { "source": "/simulator", "destination": "/simulator-dist/index.html" },
+    { "source": "/simulator/", "destination": "/simulator-dist/index.html" },
+    { "source": "/simulator/:path*", "destination": "/simulator-dist/:path*" }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/simulator-dist/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ]
+}
