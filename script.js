@@ -658,11 +658,9 @@
           box.setFromObject(modelGroup);
           var halfZ = box.max.z;
 
-          // Add black eyes
-          var eyeMat = new THREE.MeshPhysicalMaterial({
+          // Add black eyes (basic material ignores scene lights)
+          var eyeMat = new THREE.MeshBasicMaterial({
             color: 0x000000,
-            metalness: 0,
-            roughness: 0.05,
           });
 
           var eyeY = box.min.y + size.y * 0.62;
