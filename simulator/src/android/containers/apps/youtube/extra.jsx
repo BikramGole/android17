@@ -3,10 +3,11 @@ import {useSelector} from 'react-redux';
 
 import {Icon, Image, Video} from 'components/utils';
 import {dispatchAction, dispatchAct} from 'store/actions';
+import { strCsum, quantf, minifyDate } from '../../../utils/helpers';
 import './extra.scss';
 
 const posneg = (a,b,seed) => {
-  var sa = a.csum(), sb = b.csum(), sd = seed.csum()
+  var sa = strCsum(a), sb = strCsum(b), sd = strCsum(seed)
   return ((sa + sb) % 2) === (sd % 2) ? 1 : -1
 }
 
@@ -74,7 +75,7 @@ export const ViewPage = (_props)=>{
           <div className="vid-title txt-ovf">{watvid.title}</div>
           <div className="vid-stat">
             {ydata.comp ? (
-              `${watvid.views.quantf()} views • ${new Date(watvid.upload).minifyDate()}`
+               `${quantf(watvid.views)} views • ${minifyDate(new Date(watvid.upload))}`
             ): `${vidch.name}`}
           </div>
           {ydata.comp && (
@@ -82,12 +83,12 @@ export const ViewPage = (_props)=>{
               <div className="flex flex-col items-center prtclk"
                       onClick={handleLike} data-payload="1">
                 <Icon mui="ThumbUp" out={liked!=1}/>
-                <span>{watvid.likes.quantf()}</span>
+                <span>{quantf(watvid.likes)}</span>
               </div>
               <div className="flex flex-col items-center prtclk"
                       onClick={handleLike} data-payload="0">
                 <Icon mui="ThumbDown" out={liked!=0}/>
-                <span>{watvid.dislikes.quantf()}</span>
+                <span>{quantf(watvid.dislikes)}</span>
               </div>
               <div className="flex flex-col items-center">
                 <Icon mui="Reply" flip/><span>Share</span>
@@ -114,7 +115,7 @@ export const ViewPage = (_props)=>{
               <Image src={vidch.pfp} dir="asset/youtube/pfp" w={36}/>
               <div>
                 <div className="leading-4">{vidch.name}</div>
-                <div className="text-xss light-txt">{vidch.subs.quantf()} subscribers</div>
+                <div className="text-xss light-txt">{quantf(vidch.subs)} subscribers</div>
               </div>
             </div>
             <div className="subscribed-container">
@@ -146,7 +147,7 @@ export const ViewPage = (_props)=>{
                     <div className="flex-grow pl-2">
                       <div className="txt-ovf yt-vid-title">{vid.title}</div>
                       <div className="yt-vid-extra">
-                        {channel.name} • {vid.views.quantf()} views • {new Date(vid.upload).minifyDate()}
+                        {channel.name} • {quantf(vid.views)} views • {minifyDate(new Date(vid.upload))}
                       </div>
                     </div>
                   </div>
@@ -205,7 +206,7 @@ export const TrendingPage = (_props)=>{
                 <div className="flex-grow pl-2">
                   <div className="txt-ovf yt-vid-title">{vid.title}</div>
                   <div className="yt-vid-extra">
-                    {channel.name} • {vid.views.quantf()} views • {new Date(vid.upload).minifyDate()}
+                    {channel.name} • {quantf(vid.views)} views • {minifyDate(new Date(vid.upload))}
                   </div>
                 </div>
               </div>
@@ -265,7 +266,7 @@ export const SubsPage = (_props)=>{
                 <div className="flex-grow pl-2">
                   <div className="txt-ovf yt-vid-title">{vid.title}</div>
                   <div className="yt-vid-extra">
-                    {channel.name} • {vid.views.quantf()} views • {new Date(vid.upload).minifyDate()}
+                    {channel.name} • {quantf(vid.views)} views • {minifyDate(new Date(vid.upload))}
                   </div>
                 </div>
               </div>
@@ -349,7 +350,7 @@ export const Home = (_props)=>{
               <div className="flex-grow pl-2">
                 <div className="txt-ovf yt-vid-title">{vid.title}</div>
                 <div className="yt-vid-extra">
-                  {channel.name} • {vid.views.quantf()} views • {new Date(vid.upload).minifyDate()}
+                  {channel.name} • {quantf(vid.views)} views • {minifyDate(new Date(vid.upload))}
                 </div>
               </div>
             </div>

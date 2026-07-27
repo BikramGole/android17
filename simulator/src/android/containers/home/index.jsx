@@ -11,6 +11,7 @@ import BottomNav from 'components/bottomnav';
 import { dispatchAction, dispatchAct } from 'store/actions';
 
 import * as Applications from 'containers/apps';
+import { capitalize } from '../../utils/helpers';
 
 import './home.scss';
 
@@ -105,7 +106,7 @@ const AppWrapper = ({openedapp})=>{
         speed: 200
       }} ref={appScroll}>
       {opened_apps.map(item=>{
-        var key = item.capitalize()+"App",
+        var key = capitalize(item)+"App",
             WinApp = Applications[key];
 
         return <WinApp key={item}/>

@@ -3,6 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 
 import {Icon, Image} from 'components/utils';
 import {dispatchAct} from 'store/actions';
+import { time12 } from '../../../utils/helpers';
 import Swiper from 'react-slick';
 
 import './whatsapp.scss';
@@ -202,7 +203,7 @@ const AllChatScreen = ()=>{
               <div className="short-info">
                 <div className="chat-info">
                   <div className="chat-name">{contact.name}</div>
-                  <div className="chat-date">{new Date(lastmsg.time).time12()}</div>
+                  <div className="chat-date">{time12(new Date(lastmsg.time))}</div>
                 </div>
                 <div className="latest-message-container">
                   <div className="latest-message">

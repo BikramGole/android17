@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField'
 
 import {Icon, Image, Video, isValidURL} from 'components/utils'
 import {dispatchAction, dispatchAct} from 'store/actions'
+import { pastdatetime, minifyTime, time12, pastdate } from '../../../../utils/helpers'
 
 import './extra.scss'
 
@@ -54,7 +55,7 @@ export const MediaViewer = () => {
           </div>
           <div className="chat-name flex-column font-thin mx-4">
             <span>{media.name}</span>
-            <span>{new Date(media.time).pastdatetime()}</span>
+            <span>{pastdatetime(new Date(media.time))}</span>
           </div>
         </div>
         <div className="w-nav-icons">
@@ -169,7 +170,7 @@ export const StatusScreen = ()=>{
           <div className="chat-name flex-column font-thin mb-1">
             <span>{stdata.id == -1 ? "You" : contact.name}</span>
             <span>
-              {new Date(contact.status && contact.status.at(-1).time).minifyTime()}
+              {minifyTime(new Date(contact.status && contact.status.at(-1).time))}
             </span>
           </div>
         </div>
@@ -235,7 +236,7 @@ export const AllStatusScreen = (props)=>{
           <div className="status-info flex flex-col mx-4">
             <div className="chat-name">My status</div>
             <div className="status-date">
-              {myself && new Date(myself.status.at(-1).time).minifyTime()}
+              {myself && minifyTime(new Date(myself.status.at(-1).time))}
             </div>
           </div>
         </div>
@@ -262,7 +263,7 @@ export const AllStatusScreen = (props)=>{
               <div className="status-info flex flex-col mx-4">
                 <div className="chat-name">{contact.name}</div>
                 <div className="status-date">
-                  {new Date(contact.status.at(-1).time).minifyTime()}
+                  {minifyTime(new Date(contact.status.at(-1).time))}
                 </div>
               </div>
             </div>
@@ -293,7 +294,7 @@ export const CallLogs = ()=>{
                 <div className="chat-name">{chat.name}</div>
                 <div className="status-date">
                   <Icon className={className} mui={callsticon} w={14}/>
-                  <span>{new Date().minifyTime(minago)}</span>
+                  <span>{minifyTime(new Date(), minago)}</span>
                 </div>
               </div>
               {calltype=="ph"?<Icon className="teal-green" mui="Call" rounded/>:
@@ -420,7 +421,7 @@ export const ChatScreen = (props)=>{
                 arr.push(
                   <div className="chat-toast" value="1" key={"msg-"+i}>
                     <div className="msg-toast">
-                      {new Date(item.time).pastdate()}
+                      {pastdate(new Date(item.time))}
                     </div>
                   </div>
                 )
@@ -454,7 +455,7 @@ export const ChatScreen = (props)=>{
                         <pre>
                           {processLinks(item.msg)}
                           <div className="chat-date">
-                            <span>{new Date(item.time || 0).time12()}</span>
+                            <span>{time12(new Date(item.time || 0))}</span>
                             {item.type=="2"?(
                               item.seen?<Icon className="seentick" icon="seentick" w={14} payload={item.seen}/>:
                                   <Icon className="seentick" mui="Done" w={14} payload={0}/>
@@ -463,7 +464,7 @@ export const ChatScreen = (props)=>{
                         </pre>
                       ):(
                         <div className="chat-date">
-                          <span>{new Date(item.time || 0).time12()}</span>
+                          <span>{time12(new Date(item.time || 0))}</span>
                           {item.type=="2"?(
                             item.seen?<Icon className="seentick" icon="seentick" w={14} payload={item.seen}/>:
                                 <Icon className="seentick" mui="Done" w={14} payload={0}/>

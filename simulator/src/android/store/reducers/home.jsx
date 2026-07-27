@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { arrayRemove, stripChars } from '../../utils/helpers';
 
 var initialState = {
   slides: {
@@ -52,7 +53,7 @@ const Home = createSlice({
           tmp_path = searchpath({...state.apps[id].pagetree}, page)
 
       if(tmp_path){
-        state.apps[id].path = tmp_path.strip("-").split("-")
+        state.apps[id].path = stripChars(tmp_path, "-").split("-")
       }
     },
     goBack: (state, _action) => {
@@ -97,7 +98,7 @@ const Home = createSlice({
 
       var tmp = [...state.stack]
       if(tmp.includes(action.payload)){
-        tmp.remove(action.payload)
+        tmp = arrayRemove(tmp, action.payload)
       }
 
       tmp.push(action.payload)
@@ -110,7 +111,7 @@ const Home = createSlice({
 
       var tmp = [...state.stack]
       if(tmp.includes(action.payload)){
-        tmp.remove(action.payload)
+        tmp = arrayRemove(tmp, action.payload)
         if(state.apps[action.payload]){
           state.apps[action.payload].comp = false
           state.apps[action.payload].path = ['main']
