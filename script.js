@@ -670,6 +670,18 @@
           loader.load(path, onPartLoaded, undefined, function () { partsToLoad--; if (partsToLoad === 0) assembleModel(); });
         });
 
+        // Mouse-reactive light
+        var mouseLight = new THREE.DirectionalLight(0x3ddc84, 0.5);
+        mouseLight.position.set(0, 0, 20);
+        scene.add(mouseLight);
+
+        container.addEventListener('mousemove', function (e) {
+          var rect = container.getBoundingClientRect();
+          var x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+          var y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+          mouseLight.position.set(x * 30, y * 30, 20);
+        });
+
         function resize() {
           var w = container.clientWidth;
           var h = container.clientHeight;

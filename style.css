@@ -1809,6 +1809,37 @@ code {
   touch-action: none;
 }
 
+.bot-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.loaded .bot-loading {
+  opacity: 0;
+}
+
+.bot-loading-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: botPulse 1.2s ease-in-out infinite;
+}
+
+.bot-loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.bot-loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes botPulse {
+  0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+  40% { opacity: 1; transform: scale(1.2); }
+}
+
 /* ----- Phone Simulator ----- */
 .simulator-wrapper {
   display: flex;
