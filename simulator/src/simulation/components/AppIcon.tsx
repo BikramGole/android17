@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import type { AppDefinition } from '../data/apps';
 
@@ -9,19 +9,25 @@ interface AppIconProps {
   showLabel?: boolean;
 }
 
+const RIPPLE_DURATION = 600;
+
 const AppIcon: React.FC<AppIconProps> = ({ app, size = 56, onOpen, showLabel = true }) => {
   const [pressing, setPressing] = useState(false);
-  const [ripples, setRipples] = useState<{ x: number; y: number; id: number }[]>([]);
+  const [rippleId, setRippleId] = useState(0);
 
-  const handleClick = (e: React.MouseEvent) => {
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+  const handleClick = useCallback((_e: React.MouseEvent | React.KeyboardEvent) => {
     const id = Date.now();
-    setRipples(prev => [...prev, { x, y, id }]);
-    setTimeout(() => setRipples(prev => prev.filter(r => r.id !== id)), 600);
+    setRippleId(id);
+    setTimeout(() => setRippleId(0), RIPPLE_DURATION);
     onOpen(app.id);
-  };
+  }, [app.id, onOpen]);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleClick(e);
+    }
+  }, [handleClick]);
 
   const iconSize = size * 0.6;
 
@@ -35,8 +41,13 @@ const AppIcon: React.FC<AppIconProps> = ({ app, size = 56, onOpen, showLabel = t
         WebkitTapHighlightColor: 'transparent', position: 'relative',
       }}
       onClick={handleClick}
+      onKeyDown={handleKeyDown}
       onMouseEnter={() => setPressing(true)}
       onMouseLeave={() => setPressing(false)}
+      role="button"
+      tabIndex={0}
+      aria-label={`Open ${app.name}`}
+      aria-description={app.description}
     >
       <div style={{
         width: size, height: size, borderRadius: size * 0.36,
@@ -47,20 +58,22 @@ const AppIcon: React.FC<AppIconProps> = ({ app, size = 56, onOpen, showLabel = t
         transform: pressing ? 'translateY(-3px)' : 'translateY(0)',
         boxShadow: pressing ? `0 8px 24px ${app.color}33` : '0 2px 8px rgba(0,0,0,0.15)',
       }}>
-        {ripples.map(r => (
-          <span key={r.id} style={{
-            position: 'absolute', left: r.x - 8, top: r.y - 8,
+        {rippleId > 0 && (
+          <span style={{
+            position: 'absolute', left: '50%', top: '50%',
             width: 16, height: 16, borderRadius: '50%',
             background: 'rgba(255,255,255,0.3)',
-            transform: 'scale(0)', animation: 'ripple-effect 0.6s ease-out',
+            transform: 'translate(-50%, -50%) scale(0)',
+            animation: `ripple-effect ${RIPPLE_DURATION}ms ease-out`,
             pointerEvents: 'none',
           }} />
-        ))}
+        )}
         <span className="material-symbols-outlined" style={{
           fontSize: iconSize, color: app.color,
           fontVariationSettings: "'FILL' 1, 'wght' 300",
           filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))',
-        }}>
+          pointerEvents: 'none',
+        }} aria-hidden="true">
           {app.icon.toLowerCase()}
         </span>
       </div>
@@ -79,4 +92,4 @@ const AppIcon: React.FC<AppIconProps> = ({ app, size = 56, onOpen, showLabel = t
   );
 };
 
-export default AppIcon;
+export default React.memo(AppIcon);
