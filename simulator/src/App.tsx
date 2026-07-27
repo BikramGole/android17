@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, lazy, Suspense } from 'react'
 import { motion } from 'framer-motion'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -10,10 +10,11 @@ import '@material/web/button/outlined-button.js'
 import '@material/web/icon/icon.js'
 import '@material/web/switch/switch.js'
 import { MdFilledButton, MdOutlinedButton, MdIcon, MdSwitch } from './components/MaterialWeb'
-import AndroidApp from './android/AndroidApp'
-import Phone3D from './components/Phone3D'
-import RiveDemo from './components/RiveDemo'
-import CalculatorApp from './components/CalculatorApp'
+
+const AndroidApp = lazy(() => import('./android/AndroidApp'))
+const Phone3D = lazy(() => import('./components/Phone3D'))
+const RiveDemo = lazy(() => import('./components/RiveDemo'))
+const CalculatorApp = lazy(() => import('./components/CalculatorApp'))
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -65,7 +66,9 @@ export default function App() {
           <div className="gsap-phone" style={{ flexShrink: 0 }}>
             <DeviceFrameset device="Nexus 5" landscape={false} width={300}>
               <div style={{ width: '100%', height: '100%', background: '#121212', overflow: 'hidden', borderRadius: '0 0 2px 2px' }}>
-                <AndroidApp />
+                <Suspense fallback={<div style={{padding:80,textAlign:'center',color:'rgba(255,255,255,.3)',fontSize:13}}>Loading...</div>}>
+                  <AndroidApp />
+                </Suspense>
               </div>
             </DeviceFrameset>
           </div>
@@ -109,7 +112,9 @@ export default function App() {
           <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap' }}>
             <DeviceFrameset device="Nexus 5" landscape={false} width={300}>
               <div style={{ width: '100%', height: '100%', background: '#1a1a2e', overflow: 'hidden', borderRadius: '0 0 2px 2px' }}>
-                <CalculatorApp />
+                <Suspense fallback={<div style={{padding:80,textAlign:'center',color:'rgba(255,255,255,.3)',fontSize:13}}>Loading...</div>}>
+                  <CalculatorApp />
+                </Suspense>
               </div>
             </DeviceFrameset>
             <div style={{ flex: 1, minWidth: 200, paddingTop: 8 }}>
@@ -141,7 +146,9 @@ export default function App() {
           <p style={{ color: 'rgba(255,255,255,.4)', fontSize: 13, margin: '0 0 24px' }}>
             Interactive vector animation powered by Rive. Click/tap to toggle state.
           </p>
-          <RiveDemo />
+          <Suspense fallback={<div style={{borderRadius:16,background:'radial-gradient(ellipse at center, #141428 0%, #0a0a0f 70%)',height:320,display:'flex',alignItems:'center',justifyContent:'center',color:'rgba(255,255,255,.3)',fontSize:13}}>Loading animation...</div>}>
+            <RiveDemo />
+          </Suspense>
         </motion.div>
       </div>
 
@@ -154,7 +161,9 @@ export default function App() {
           <p style={{ color: 'rgba(255,255,255,.4)', fontSize: 13, margin: '0 0 24px' }}>
             Three.js + @react-three/fiber + drei. Drag to rotate.
           </p>
-          <Phone3D />
+          <Suspense fallback={<div style={{width:'100%',height:340,borderRadius:16,background:'radial-gradient(ellipse at center, #141428 0%, #0a0a0f 70%)',display:'flex',alignItems:'center',justifyContent:'center',color:'rgba(255,255,255,.3)',fontSize:13}}>Loading 3D...</div>}>
+            <Phone3D />
+          </Suspense>
         </motion.div>
       </div>
     </div>
