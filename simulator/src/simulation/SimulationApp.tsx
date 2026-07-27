@@ -1,6 +1,7 @@
 import React, { useMemo, lazy, Suspense } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useSimulationState } from './hooks/useSimulationState';
+import BootAnimation from './system/BootAnimation';
 import LockScreen from './screens/LockScreen';
 import HomeScreen from './screens/HomeScreen';
 import AppDrawer from './screens/AppDrawer';
@@ -121,7 +122,9 @@ const SimulationApp: React.FC = () => {
         style={{ width: '100%', height: '100%', position: 'relative' }}
       >
         <AnimatePresence mode="wait">
-          {sim.locked ? (
+          {sim.screen === 'boot' ? (
+            <BootAnimation key="boot" progress={sim.bootProgress} />
+          ) : sim.locked ? (
             <LockScreen
               key="lock"
               time={sim.time}
@@ -130,7 +133,7 @@ const SimulationApp: React.FC = () => {
               batteryLevel={sim.batteryLevel}
               notifications={sim.notifications}
               onUnlock={sim.unlock}
-              onOpenShade={sim.openShade}
+              onOpenShade={() => {}}
             />
           ) : (
             <HomeScreen

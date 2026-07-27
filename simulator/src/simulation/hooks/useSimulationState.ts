@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 
-export type ScreenState = 'lock' | 'home' | 'app' | 'drawer' | 'recents';
+export type ScreenState = 'boot' | 'lock' | 'home' | 'app' | 'drawer' | 'recents';
 
 export interface SimulationState {
   screen: ScreenState;
@@ -22,6 +22,7 @@ export interface SimulationState {
   time: { hours: string; minutes: string; ampm: string };
   date: { day: number; weekday: string; month: string };
   notifications: NotificationData[];
+  bootProgress: number;
 }
 
 export interface NotificationData {
@@ -68,7 +69,7 @@ const SAMPLE_NOTIFICATIONS: NotificationData[] = [
 ];
 
 export function useSimulationState() {
-  const [screen, setScreen] = useState<ScreenState>('lock');
+  const [screen, setScreen] = useState<ScreenState>('boot');
   const [locked, setLocked] = useState(true);
   const [openedApp, setOpenedApp] = useState<string | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -87,7 +88,7 @@ export function useSimulationState() {
   const [time, setTime] = useState(getTime);
   const [date] = useState(getDate);
   const [notifications] = useState(SAMPLE_NOTIFICATIONS);
-  const [booted, setBooted] = useState(false);
+  const [bootProgress, setBootProgress] = useState(0);
   const touchStartY = useRef(0);
 
   useEffect(() => {
@@ -95,17 +96,42 @@ export function useSimulationState() {
     return () => clearInterval(timer);
   }, []);
 
-  const boot = useCallback(() => setBooted(true), []);
+  useEffect(() => {
+    if (screen !== 'boot') return;
+    const interval = setInterval(() => {
+      setBootProgress(prev => {
+        const next = prev + 0.02 + Math.random() * 0.03;
+        if (next >= 1) {
+          clearInterval(interval);
+          setTimeout(() => {
+            setScreen('lock');
+          }, 400);
+          return 1;
+        }
+        return Math.min(next, 1);
+      });
+    }, 80);
+    return () => clearInterval(interval);
+  }, [screen]);
 
   const unlock = useCallback(() => {
     setLocked(false);
     setScreen('home');
   }, []);
 
+  const lock = useCallback(() => {
+    setLocked(true);
+    setScreen('lock');
+    setOpenedApp(null);
+    setDrawerOpen(false);
+    setNotificationShade(false);
+  }, []);
+
   const openApp = useCallback((appId: string) => {
     setOpenedApp(appId);
     setScreen('app');
     setDrawerOpen(false);
+    setNotificationShade(false);
   }, []);
 
   const closeApp = useCallback(() => {
@@ -137,6 +163,7 @@ export function useSimulationState() {
     setOpenedApp(null);
     setScreen('home');
     setDrawerOpen(false);
+    setNotificationShade(false);
   }, []);
 
   const handleTouchStart = useCallback((y: number) => { touchStartY.current = y; }, []);
@@ -153,8 +180,8 @@ export function useSimulationState() {
     screen, locked, openedApp, drawerOpen, notificationShade,
     brightness, volume, darkMode, batteryLevel, charging,
     wifiOn, bluetoothOn, dndOn, flashlightOn, airplaneMode, locationOn,
-    time, date, notifications, booted,
-    boot, unlock, openApp, closeApp, toggleDrawer,
+    time, date, notifications, bootProgress,
+    boot: () => {}, unlock, lock, openApp, closeApp, toggleDrawer,
     openShade, closeShade,
     toggleWifi, toggleBluetooth, toggleDnd, toggleFlashlight,
     toggleAirplane, toggleLocation, toggleDarkMode,
