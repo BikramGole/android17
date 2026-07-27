@@ -383,6 +383,19 @@
     });
   })();
 
+  /* ===== 9.3 Scroll to Top Button ===== */
+  (function () {
+    var btn = document.getElementById('scroll-to-top');
+    if (!btn) return;
+    var toggle = function () {
+      btn.classList.toggle('visible', window.pageYOffset > 500);
+    };
+    window.addEventListener('scroll', toggle, { passive: true });
+    btn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  })();
+
   /* ===== 9.4 Staggered Card Reveal ===== */
   (function () {
     var grids = qa('.features-grid, .overview-grid, .media-grid, .faq-grid');
