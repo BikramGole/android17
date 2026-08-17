@@ -56,7 +56,11 @@ export const Icon = (props) => {
 
   var classname = `uicon prtclk ${props.className || ""}`.trim()
   var styles = {
-    borderRadius: props.radii
+    borderRadius: props.radii,
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden'
   }
 
   const label = props.label!=null && <span>{props.label}</span>
@@ -107,7 +111,13 @@ export const Icon = (props) => {
         onClick={props.onClick || dispatchAction} style={styles}>
         <img width={props.w} height={props.h} data-flip={props.flip}
           data-invert={props.invert} data-rounded={props.rounded}
-          src={src} style={{ margin: props.margin}}
+          src={src} style={{
+            margin: props.margin,
+            width: props.w,
+            height: props.h || props.w,
+            objectFit: 'contain',
+            display: 'block',
+          }}
           alt={props.alt || ""}/>
           {label}
       </div>
