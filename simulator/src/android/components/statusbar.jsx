@@ -51,7 +51,7 @@ const StatusBar = (props) => {
             "status-time smooth-trans" + (props.hidetime ? " opacity-0" : "")
           }>{time.hours}:{time.minutes}</div>
         <div className="status-row">
-          <Icon fafa="faWifi" w={12} fill="#444" />
+          <Icon fafa="faWifi" w={12} fill={invert ? "#ddd" : "#222"} />
           <NetworkIcon w={10} fill={invert?"#ddd":"#222"} filldim="#888" />
           <div className="flex items-center text-xs font-bold">
             <div className="battery-level">
